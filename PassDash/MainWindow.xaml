@@ -7,7 +7,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:PassDash"
         mc:Ignorable="d"
-        Title="PassDash" Height="422.727" Width="732.955">
+        Title="PassDash" Height="3707.814" Width="4516.274">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -15,7 +15,7 @@
                 <MenuItem Header="_Open" Click="open_Click" />
                 <MenuItem Header="_Save" Click="save_Click"/>
                 <Separator />
-                <MenuItem Header="_Exit" />
+                <MenuItem Header="_Exit" Click="exit_Click" />
             </MenuItem>
         </Menu>
         <TextBox AcceptsReturn="True" />
@@ -78,57 +78,56 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="100*"/>
+                                    <ColumnDefinition Width="230*"/>
+                                    <ColumnDefinition Width="100*"/>
+                                    <ColumnDefinition Width="239*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Label Name="lpassWordForm" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" />
+                                <Label Name="lpassWordForm" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" Height="10" Margin="80,16,79,17" Width="10" />
 
-                                <TextBox Grid.Column="0" Grid.Row="1" Text="Name:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0" />
+                                <TextBox Grid.Column="0" Grid.Row="1" Text="Name:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0"  IsReadOnly="True"  />
                                 <TextBox x:Name="uName" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" BorderThickness="1"  />
 
-                                <TextBox Grid.Column="0" Grid.Row="2" Text="Category:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0" />
+                                <TextBox Grid.Column="0" Grid.Row="2" Text="Category:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0"  IsReadOnly="True" />
                                 <TextBox x:Name="uCategory" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" BorderThickness="1"  />
 
-                                <TextBox Grid.Column="0" Grid.Row="3" Text="Website:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0"  />
-                                <TextBox x:Name="uWebsite" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" BorderThickness="1"  />
+                                <TextBox Grid.Column="0" Grid.Row="3" Text="Website:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0"  IsReadOnly="True" />
+                                <TextBox x:Name="uWebsite" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" BorderThickness="1"   />
 
-                                <Button Grid.Column="2" Grid.Row="3" Name="bOpenWebsite" Width="30" Height="30" Click="openWebsite_Click" ToolTip="Open website" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                <Button Grid.Column="2" Grid.Row="3" Name="bOpenWebsite" Width="30" Click="openWebsite_Click" ToolTip="Open website" HorizontalAlignment="Center" Height="25" VerticalAlignment="Center" >
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="Images/internet.png" Stretch="Fill"/>
                                         <TextBlock Text="" VerticalAlignment="Center" />
                                     </StackPanel>
                                 </Button>
 
-                                <TextBox Grid.Column="0" Grid.Row="4" Text="User name:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0"  />
-                                <TextBox x:Name="uUsername" Grid.Column="1" Grid.Row="4" BorderThickness="1" VerticalAlignment="Center"  />
+                                <TextBox Grid.Column="0" Grid.Row="4" Text="User name:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0" IsReadOnly="True" />
+                                <TextBox x:Name="uUsername" Grid.Column="1" Grid.Row="4" BorderThickness="1" VerticalAlignment="Center"   />
 
-                                <TextBox Grid.Column="0" Grid.Row="5" Text="Password:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0" />
-                                <TextBox x:Name="uPassword" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" BorderThickness="1"   />
+                                <TextBox Grid.Column="0" Grid.Row="5" Text="Password:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0"  IsReadOnly="True" />
+                                <TextBox x:Name="uPassword" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" BorderThickness="1"    />
 
 
-                                <TextBox Grid.Column="0" Grid.Row="6" Text="Note:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0" />
+                                <TextBox Grid.Column="0" Grid.Row="6" Text="Note:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0"  IsReadOnly="True" />
                                 <TextBox x:Name="uNote" Grid.Column="1" Grid.Row="6" BorderThickness="1" Grid.RowSpan="2" />
 
 
-                                <Button Grid.Column="1" Grid.Row="8" Name="bDelPassword" Width="30" Height="30" Click="delPassword_Click" ToolTip="Delete your password" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Button Grid.Column="1" Grid.Row="8" Name="bDelPassword" Width="30" Click="delPassword_Click" ToolTip="Delete your password" HorizontalAlignment="Left" VerticalAlignment="Center" Height="25">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="Images/del.png" Stretch="Fill"/>
                                         <TextBlock Text="" VerticalAlignment="Center" />
                                     </StackPanel>
                                 </Button>
-                                <Button Grid.Column="1" Grid.Row="8" Name="bAddPassword" Width="50" Height="30" Click="addPassword_Click" ToolTip="Add your password" Content="Add" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                </Button>
+                                <Button Grid.Column="1" Grid.Row="8" Name="bAddPassword" Width="50"  Click="addPassword_Click" ToolTip="Add your password" Content="Add" HorizontalAlignment="Right" Height="25" VerticalAlignment="Center" />
 
 
-                                <Label Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0000" Name="lerrName" />
-                                <Label Grid.Column="3" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0000" Name="lerrWebsite"/>
-                                <Label Grid.Column="3" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0000" Name="lerrUserName"/>
-                                <Label Grid.Column="3" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0000" Name="lerrPassword"/>
-                               
-                              
+                                <Label Grid.Column="3" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FF0000" Name="lerrName" />
+                                <Label Grid.Column="3" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0000" Name="lerrWebsite" />
+                                <Label Grid.Column="3" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0000" Name="lerrUserName" />
+                                <Label Grid.Column="3" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0000" Name="lerrPassword" />
+
+
 
                             </Grid>
                         </Border>
@@ -238,7 +237,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Label Name="lmasterPassWord" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" Content="Master password:" />
-                                <TextBox Grid.Column="0" Grid.Row="1" Text="Master password:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0" Height="14" Margin="-16,0,1,0" Width="98" Background="{x:Null}" Foreground="Black"/>
+                                <TextBox Grid.Column="0" Grid.Row="1" Text="Master password:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0" Width="98" Background="{x:Null}" Foreground="Black"  IsReadOnly="True"/>
 
                                 <PasswordBox x:Name="uMasterPassword" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" BorderThickness="1"  />
                                 <TextBlock Grid.Column="2" Grid.Row="1" Name="lerrMasterPassword" TextWrapping="WrapWithOverflow" Margin="10,0,0,0" Foreground="#FFFF031A"/>

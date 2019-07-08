@@ -90,13 +90,13 @@ namespace PassDash
                 }
                 else
                 {
-                    MessageBox.Show("You have entered the wrong master password. This file can't be opened!", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("You have entered the wrong master password for this password file. This password file can't be opened.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
 
             }
             else
             {
-                MessageBox.Show("Please enter a master password.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("To open a password file please enter the corresponding master password.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
                 tabControlMain.SelectedIndex = 1;
             }
 
@@ -142,13 +142,20 @@ namespace PassDash
             }
             else
             {
-                MessageBox.Show("Please enter a master password.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("To save a password file please enter a master password for the file.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
                 tabControlMain.SelectedIndex = 1;
             }
         }
+
+
+        private void exit_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
+
         #endregion
 
-        #region button events
+            #region button events
 
         private void saveMasterPassword_Click(object sender, RoutedEventArgs e)
         {
@@ -172,7 +179,7 @@ namespace PassDash
             else
             {
                 lerrMasterPassword.Text = "";
-                lerrMasterPassword.Text = "Invalid Master password. The master password should have at least 8 characters, one uppercase letter, and one non-letter.";
+                lerrMasterPassword.Text = "Invalid master password. The master password should have at least 8 characters, one uppercase letter, and one non-letter.";
             }
 
         }
@@ -195,23 +202,28 @@ namespace PassDash
 
         private void delPassword_Click(object sender, RoutedEventArgs e)
         {
-            Password password = (Password)listViewPasswords.SelectedItem;
-            string id = password.id;
 
-            if ((Password)listViewPasswords.SelectedItem != null)
+
+            if (listViewPasswords.SelectedItem != null)
             {
-                foreach (Password mypassword in passWords)
+                Password password = (Password)listViewPasswords.SelectedItem;
+                string id = password.id;
+
+                if ((Password)listViewPasswords.SelectedItem != null)
                 {
-                    if (mypassword.id == id)
+                    foreach (Password mypassword in passWords)
                     {
-                        passWords.Remove(mypassword);
-                        break;
+                        if (mypassword.id == id)
+                        {
+                            passWords.Remove(mypassword);
+                            break;
+                        }
                     }
+                    resetPassWordForm();
+                    showPassWords();
+                    showPassWordPieChart();
+                    showCatPieChart();
                 }
-                resetPassWordForm();
-                showPassWords();
-                showPassWordPieChart();
-                showCatPieChart();
             }
 
             
@@ -366,6 +378,7 @@ namespace PassDash
             ds.ReadXml(aCryptoStream);
             aStreamReader.Close();
             aFileStream.Close();
+            //test
             return ds;
         }
 

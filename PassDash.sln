@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassDash", "PassDash\PassDash.csproj", "{1E326772-1A14-477F-A489-935C3B55CF98}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pass_Dash", "PassDash\Pass_Dash.csproj", "{1E326772-1A14-477F-A489-935C3B55CF98}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PassDash", "PassDash Setup\PassDash Setup.vdproj", "{9BE48241-4F90-4366-ACAD-13700E2495F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,11 @@ Global
 		{1E326772-1A14-477F-A489-935C3B55CF98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E326772-1A14-477F-A489-935C3B55CF98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E326772-1A14-477F-A489-935C3B55CF98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E326772-1A14-477F-A489-935C3B55CF98}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{9BE48241-4F90-4366-ACAD-13700E2495F2}.Debug|Any CPU.ActiveCfg = Debug
+		{9BE48241-4F90-4366-ACAD-13700E2495F2}.Release|Any CPU.ActiveCfg = Release
+		{9BE48241-4F90-4366-ACAD-13700E2495F2}.Release|Any CPU.Build.0 = Release
+		{9BE48241-4F90-4366-ACAD-13700E2495F2}.Release|Any CPU.Deploy.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
