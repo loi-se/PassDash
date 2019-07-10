@@ -153,9 +153,25 @@ namespace PassDash
             System.Windows.Application.Current.Shutdown();
         }
 
+
+        private void new_Click(object sender, RoutedEventArgs e)
+        {
+            passWords = new List<Password>();
+            masterPassword = "";
+            this.uMasterPassword.Password = "";
+
+            resetPassWordForm();
+            showPassWords();
+            showPassWordPieChart();
+            showCatPieChart();
+        }
+
+        
+
+
         #endregion
 
-            #region button events
+        #region button events
 
         private void saveMasterPassword_Click(object sender, RoutedEventArgs e)
         {
