@@ -84,7 +84,7 @@
                                     <ColumnDefinition Width="239*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Label Name="lpassWordForm" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" Height="10" Margin="80,16,79,17" Width="10" />
+                                <Label Name="lpassWordForm" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" />
 
                                 <TextBox Grid.Column="0" Grid.Row="1" Text="Name:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0"  IsReadOnly="True"  />
                                 <TextBox x:Name="uName" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" BorderThickness="1"  />
