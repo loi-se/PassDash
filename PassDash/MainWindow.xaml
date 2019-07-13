@@ -7,7 +7,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:PassDash"
         mc:Ignorable="d"
-        Title="PassDash" Height="3707.814" Width="4516.274">
+        Title="PassDash" Height="700" Width="1200">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -90,7 +90,9 @@
                                 <TextBox x:Name="uName" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" BorderThickness="1"  />
 
                                 <TextBox Grid.Column="0" Grid.Row="2" Text="Category:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0"  IsReadOnly="True" />
-                                <TextBox x:Name="uCategory" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" BorderThickness="1"  />
+                                <!--<TextBox x:Name="uCategory" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" BorderThickness="1"  />-->
+
+                                <ComboBox x:Name="ucCategory" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" BorderThickness="1"  IsEditable="True" />
 
                                 <TextBox Grid.Column="0" Grid.Row="3" Text="Website:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0"  IsReadOnly="True" />
                                 <TextBox x:Name="uWebsite" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" BorderThickness="1"   />

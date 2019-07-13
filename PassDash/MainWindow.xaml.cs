@@ -57,7 +57,6 @@ namespace PassDash
         #region menu events
         private void open_Click(object sender, RoutedEventArgs e)
         {
-
             string fileName = "";
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
@@ -107,7 +106,6 @@ namespace PassDash
 
         private void save_Click(object sender, RoutedEventArgs e)
         {
-
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
             if (masterPassword != null && masterPassword.Length > 5)
@@ -119,7 +117,6 @@ namespace PassDash
 
                 if (saveFileDialog.ShowDialog() == true)
                 {
-                    //File.WriteAllText(saveFileDialog.FileName, txtEditor.Text);
                     XmlSerializer serialiser = new XmlSerializer(typeof(PasswordList));
                     PasswordList list = new PasswordList();
 
@@ -156,11 +153,11 @@ namespace PassDash
             System.Windows.Application.Current.Shutdown();
         }
 
-
         private void new_Click(object sender, RoutedEventArgs e)
         {
             passWords = new List<Password>();
             masterPassword = "";
+            ucCategory.Items.Clear();
             this.bShowAllPasswords.Visibility = Visibility.Hidden;
             this.uMasterPassword.Password = "";
             this.tFreeSearch.Text = "";
@@ -174,7 +171,6 @@ namespace PassDash
 
         private void showAllPasswords_Click(object sender, RoutedEventArgs e)
         {
-
             showPassWords();
             this.bShowAllPasswords.Visibility = Visibility.Hidden;
             this.tFreeSearch.Text = "";
@@ -184,7 +180,6 @@ namespace PassDash
 
         private void searchAllPasswords_Click(object sender, RoutedEventArgs e)
         {
-
             List<Password> foundPasswords = new List<Password>();
             string searchQuery = tFreeSearch.Text;
             lerrSearch.Content = "";
@@ -249,7 +244,6 @@ namespace PassDash
 
         private void saveMasterPassword_Click(object sender, RoutedEventArgs e)
         {
-
             masterPassword = this.uMasterPassword.Password.ToString();
 
             Match password = Regex.Match(masterPassword, @"
@@ -292,8 +286,6 @@ namespace PassDash
 
         private void delPassword_Click(object sender, RoutedEventArgs e)
         {
-
-
             if (listViewPasswords.SelectedItem != null)
             {
                 Password password = (Password)listViewPasswords.SelectedItem;
@@ -321,7 +313,6 @@ namespace PassDash
 
         private void addPassword_Click(object sender, RoutedEventArgs e)
         {
-
             bool valid = true;
             listViewPasswords.Focus();
 
@@ -346,7 +337,7 @@ namespace PassDash
                             if (mypassword.id == id)
                             {
                                 mypassword.name = this.uName.Text;
-                                mypassword.category = this.uCategory.Text;
+                                mypassword.category = this.ucCategory.Text;
                                 mypassword.userName = this.uUsername.Text;
                                 mypassword.website = this.uWebsite.Text;
                                 mypassword.userPassword = this.uPassword.Text;
@@ -371,7 +362,7 @@ namespace PassDash
                 {
                     password.id = obj.ToString();
                     password.name = this.uName.Text;
-                    password.category = this.uCategory.Text;
+                    password.category = this.ucCategory.Text;
                     password.userName = this.uUsername.Text;
                     password.website = this.uWebsite.Text;
                     password.userPassword = this.uPassword.Text;
@@ -384,9 +375,7 @@ namespace PassDash
                     resetPassWordForm();
                 }
             }
-
             showPassWords();
-
         }
 
         private void addNewPassword_Click(object sender, RoutedEventArgs e)
@@ -422,7 +411,6 @@ namespace PassDash
                     }
                 }
 
-
                 if (selPassword.name != null)
                 {
                     this.uName.Text = selPassword.name.ToString();
@@ -437,7 +425,7 @@ namespace PassDash
                 }
                 if (selPassword.category != null)
                 {
-                    this.uCategory.Text = selPassword.category.ToString();
+                    this.ucCategory.Text = selPassword.category.ToString();
                 }
 
                 if (selPassword.userPassword != null)
@@ -468,11 +456,8 @@ namespace PassDash
             ds.ReadXml(aCryptoStream);
             aStreamReader.Close();
             aFileStream.Close();
-            //test
             return ds;
         }
-
-
         #endregion
 
         #region general methods
@@ -485,6 +470,12 @@ namespace PassDash
             {
                 listViewPasswords.Items.Add(new Password { nr = i.ToString(), category = password.category, name = password.name, website = password.website, userName = password.userName, userPassword = password.userPassword, dateTime = password.dateTime, id = password.id });
                 i = i + 1;
+
+                if (!ucCategory.Items.Contains(password.category))
+                {
+                    ucCategory.Items.Add(password.category);
+                }
+
             }
 
             lpasswordListView.Content = "My Passwords" + " (" + passWords.Count.ToString() + ")" + ":";
@@ -506,7 +497,7 @@ namespace PassDash
             this.uUsername.Text = "";
             this.uWebsite.Text = "";
             this.uPassword.Text = "";
-            this.uCategory.Text = "";
+            this.ucCategory.Text = "";
             this.uNote.Text = "";
 
             this.lerrName.Content = "";
