@@ -338,7 +338,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:PassDash"
         "ProductCode" = "8:{C9800FA2-5535-4AFB-95A4-0132D3AF857A}"
-        "PackageCode" = "8:{45304226-1C3C-469C-8193-F145C26E0049}"
+        "PackageCode" = "8:{870EF316-1C24-4ACA-9ACD-AE9F893B731B}"
         "UpgradeCode" = "8:{08BCA3AC-17D0-4C8E-A88A-9203D64BA143}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

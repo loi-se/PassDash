@@ -161,7 +161,10 @@ namespace PassDash
         {
             passWords = new List<Password>();
             masterPassword = "";
+            this.bShowAllPasswords.Visibility = Visibility.Hidden;
             this.uMasterPassword.Password = "";
+            this.tFreeSearch.Text = "";
+            this.lerrSearch.Content = "";
 
             resetPassWordForm();
             showPassWords();
@@ -171,11 +174,73 @@ namespace PassDash
 
         private void showAllPasswords_Click(object sender, RoutedEventArgs e)
         {
-            
+
             showPassWords();
             this.bShowAllPasswords.Visibility = Visibility.Hidden;
+            this.tFreeSearch.Text = "";
+            this.lerrSearch.Content = "";
         }
 
+
+        private void searchAllPasswords_Click(object sender, RoutedEventArgs e)
+        {
+
+            List<Password> foundPasswords = new List<Password>();
+            string searchQuery = tFreeSearch.Text;
+            lerrSearch.Content = "";
+
+            if (searchQuery.Length > 2)
+            {
+
+                foreach (Password password in passWords)
+                {
+                    Boolean foundPassword = false;
+
+                    if (password.name != null && password.name.ToLower().Contains(searchQuery))
+                    {
+                        foundPassword = true;
+
+                    }
+                    else if (password.userName != null && password.userName.ToLower().Contains(searchQuery))
+                    {
+                        foundPassword = true;
+                    }
+                    else if (password.userPassword != null && password.userPassword.ToLower().Contains(searchQuery))
+                    {
+                        foundPassword = true;
+                    }
+                    else if (password.note != null && password.note.ToLower().Contains(searchQuery))
+                    {
+
+                        foundPassword = true;
+                    }
+                    else if (password.category != null && password.category.ToLower().Contains(searchQuery))
+                    {
+                        foundPassword = true;
+                    }
+
+                    if (foundPassword == true)
+                    {
+
+                        foundPasswords.Add(password);
+                    }
+                }
+
+                if (foundPasswords.Count > 0)
+                {
+                    showFoundPasswords(foundPasswords);
+                }
+                else
+                {
+                    lerrSearch.Content = "No passwords found.";
+                   
+                }
+            }
+            else
+            {
+                lerrSearch.Content = "Search query should have at least 3 characters.";
+            }
+        }
 
 
         #endregion
@@ -251,7 +316,7 @@ namespace PassDash
                 }
             }
 
-            
+
         }
 
         private void addPassword_Click(object sender, RoutedEventArgs e)
@@ -374,7 +439,7 @@ namespace PassDash
                 {
                     this.uCategory.Text = selPassword.category.ToString();
                 }
-                
+
                 if (selPassword.userPassword != null)
                 {
                     this.uPassword.Text = selPassword.userPassword.ToString();
@@ -456,6 +521,27 @@ namespace PassDash
             this.lerrPassword.Content = "";
             this.lerrUserName.Content = "";
             this.lerrWebsite.Content = "";
+        }
+
+
+        public void showFoundPasswords(List<Password> foundPasswords)
+        {
+
+            listViewPasswords.Items.Clear();
+
+            int i = 1;
+            foreach (Password password in foundPasswords)
+            {
+                listViewPasswords.Items.Add(new Password { nr = i.ToString(), category = password.category, name = password.name, website = password.website, userName = password.userName, userPassword = password.userPassword, dateTime = password.dateTime, id = password.id });
+                i = i + 1;
+            }
+
+            if (foundPasswords.Count < passWords.Count)
+            {
+                this.bShowAllPasswords.Visibility = Visibility.Visible;
+            }
+
+            lerrSearch.Content = "";
         }
 
         #endregion
@@ -620,6 +706,8 @@ namespace PassDash
         private void ChartOnDataClick(object sender, ChartPoint p)
         {
 
+            this.tFreeSearch.Text = "";
+            this.lerrSearch.Content = "";
             PieSeries pieSeries = new PieSeries();
             pieSeries.LabelPoint = p.SeriesView.LabelPoint;   
             string labelName = pieSeries.LabelPoint(p);
@@ -641,21 +729,8 @@ namespace PassDash
                     foundPasswords.Add(password);
                 }
             }
-            listViewPasswords.Items.Clear();
 
-            int i = 1;
-            foreach (Password password in foundPasswords)
-            {
-                listViewPasswords.Items.Add(new Password { nr = i.ToString(), category = password.category, name = password.name, website = password.website, userName = password.userName, userPassword = password.userPassword, dateTime = password.dateTime, id = password.id });
-                i = i + 1;
-            }
-
-            if (foundPasswords.Count < passWords.Count)
-            {
-                this.bShowAllPasswords.Visibility = Visibility.Visible;
-            }
-
-            //MessageBox.Show(category);
+            showFoundPasswords(foundPasswords);
         }
 
         #endregion
@@ -678,10 +753,10 @@ namespace PassDash
         private void testData()
         {
 
-            //passWords.Add(new Password { name = "111", category= "new", website = "www.nu.nl", userName = "Wi", userPassword = "1234567", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
-            //passWords.Add(new Password { name = "111", category = "new", website = "www.nu.nl", userName = "Ro", userPassword = "1234567", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
-            //passWords.Add(new Password { name = "111", category = "new", website = "www.nu.nl", userName = "Eg", userPassword = "1234567", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
-            //passWords.Add(new Password { name = "111", category = "new", website = "www.nu.nl", userName = "Wi", userPassword = "1234567",  dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
+          //passWords.Add(new Password { name = "111", category= "new", website = "www.nu.nl", userName = "Wi", userPassword = "1234567", note = "note1", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
+          //passWords.Add(new Password { name = "111", category = "new", website = "www.nu.nl", userName = "Ro", userPassword = "1234567", note = "note2", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
+          // passWords.Add(new Password { name = "111", category = "new", website = "www.nu.nl", userName = "Eg", userPassword = "1234567", note = "note3", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
+          // passWords.Add(new Password { name = "111", category = "new", website = "www.nu.nl", userName = "Wi", userPassword = "1234567", note = "note4", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
         }
         #endregion
 
