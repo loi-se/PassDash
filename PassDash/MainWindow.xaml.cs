@@ -320,7 +320,16 @@ namespace PassDash
 
         private void saveMasterPassword_Click(object sender, RoutedEventArgs e)
         {
-            masterPassword = this.uMasterPassword.Password.ToString();
+
+            if (chkMasterPassword.IsChecked == true)
+            {
+                masterPassword = this.uTxtMasterPassword.Text.ToString();
+            }
+            else if (chkMasterPassword.IsChecked == false)
+            {
+
+                masterPassword = this.uMasterPassword.Password.ToString();
+            }
 
             Match password = Regex.Match(masterPassword, @"
                                       ^              # Match the start of the string
@@ -344,6 +353,24 @@ namespace PassDash
 
         }
 
+
+        private void chkMasterPassword_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkMasterPassword.IsChecked == true)
+            {
+                uMasterPassword.Visibility = Visibility.Hidden;
+                uTxtMasterPassword.Visibility = Visibility.Visible;
+                uTxtMasterPassword.Text = uMasterPassword.Password.ToString();
+            }
+            else if (chkMasterPassword.IsChecked == false)
+            {
+                uTxtMasterPassword.Visibility = Visibility.Hidden;
+                uMasterPassword.Visibility = Visibility.Visible;
+                uMasterPassword.Password = uTxtMasterPassword.Text;
+            }
+
+
+        }
         private void openWebsite_Click(object sender, RoutedEventArgs e)
         {
             string website = this.uWebsite.Text;
