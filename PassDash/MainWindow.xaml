@@ -14,6 +14,7 @@
                 <MenuItem Header="_New" Click="new_Click" />
                 <MenuItem Header="_Open" Click="open_Click" />
                 <MenuItem Header="_Save" Click="save_Click"/>
+                <MenuItem Header="_Save As" Click="saveAs_Click"/>
                 <Separator />
                 <MenuItem Header="_Exit" Click="exit_Click" />
             </MenuItem>
@@ -147,7 +148,10 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <!--<StackPanel Margin="0">-->
-                                <Label Name="lpasswordListView" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Content="My Passwords:" FontSize="14" />
+                                <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Label Name="lpasswordListView" Grid.Column="0" Grid.Row="0"  FontWeight="Bold" Content="My Passwords:" FontSize="14" VerticalAlignment="Center" />
+                                    <Label Name="lpasswordFileName" Grid.Column="0" Grid.Row="0" FontWeight="Bold" Content="" FontSize="11" VerticalAlignment="Center" />
+                                   </StackPanel>
                                 <ListView Name="listViewPasswords" Grid.Column="0" Grid.Row="1" IsSynchronizedWithCurrentItem="True" PreviewMouseLeftButtonUp="listView_Click"
                               util:GridViewSort.AutoSort="True" Background="#FFDCF0DD">
                                     <ListView.View>

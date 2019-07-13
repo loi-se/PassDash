@@ -37,6 +37,8 @@ namespace PassDash
         public SeriesCollection SeriesCollectionPass { get; set; }
         public SeriesCollection SeriesCollectionCat { get; set; }
 
+        public string openedPasswordFile = "";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -47,7 +49,7 @@ namespace PassDash
             this.bOpenWebsite.Visibility = Visibility.Hidden;
             this.bShowAllPasswords.Visibility = Visibility.Hidden;
 
-            testData();
+            //testData();
             resetPassWordForm();
             showPassWords();
             showPassWordPieChart();
@@ -65,6 +67,7 @@ namespace PassDash
                 if (openFileDialog.ShowDialog() == true)
                 {
                     fileName = openFileDialog.FileName.ToString();
+                    openedPasswordFile = fileName;
                     DataSet ds = DecryptAndDeserialize(fileName);
                     string xml = ds.GetXml();
 
@@ -85,7 +88,9 @@ namespace PassDash
 
                 if (fileMasterPassword != "" && masterPassword == fileMasterPassword)
                 {
-                    MessageBox.Show("Password file opened succesfully.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                    string file = setSavedPasswordFileInfo(fileName);
+                    MessageBox.Show("Password file: " + file + " opened succesfully.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
                     showPassWords();
                     showPassWordPieChart();
                     showCatPieChart();
@@ -108,43 +113,111 @@ namespace PassDash
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
-            if (masterPassword != null && masterPassword.Length > 5)
+            if (passWords.Count > 0)
             {
-                foreach (Password password in passWords)
+                if (masterPassword != null && masterPassword.Length > 5)
                 {
-                    password.masterPassword = masterPassword;
-                }
-
-                if (saveFileDialog.ShowDialog() == true)
-                {
-                    XmlSerializer serialiser = new XmlSerializer(typeof(PasswordList));
-                    PasswordList list = new PasswordList();
-
                     foreach (Password password in passWords)
                     {
-                        list.Items.Add(password);
+                        password.masterPassword = masterPassword;
                     }
 
-                    UnicodeEncoding aUE = new UnicodeEncoding();
-                    byte[] key = aUE.GetBytes("password");
-                    RijndaelManaged RMCrypto = new RijndaelManaged();
 
-                    using (FileStream fs = File.Open(saveFileDialog.FileName.ToString().Replace(".xml", "") + ".xml", FileMode.Create))
+                    if (openedPasswordFile == "")
                     {
-                        using (CryptoStream cs = new CryptoStream(fs, RMCrypto.CreateEncryptor(key, key), CryptoStreamMode.Write))
+                        if (saveFileDialog.ShowDialog() == true)
                         {
-                            XmlSerializer xmlser = new XmlSerializer(typeof(PasswordList));
-                            xmlser.Serialize(cs, list);
+                            string fileName = saveFileDialog.FileName.ToString();
+                            savePasswords(fileName);
+                            string file = setSavedPasswordFileInfo(fileName);
+                            MessageBox.Show("Your password file: " + file + " is saved.", "Saved!", MessageBoxButton.OK, MessageBoxImage.Information);
                         }
-                        fs.Close();
                     }
+                    else if (openedPasswordFile != "")
+                    {
+                        savePasswords(openedPasswordFile);
+                        string file = setSavedPasswordFileInfo(openedPasswordFile);
+                        MessageBox.Show("Your password file: " + file + " is saved.", "Saved!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("To save a password file please enter a master password for the file.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    tabControlMain.SelectedIndex = 1;
                 }
             }
             else
             {
-                MessageBox.Show("To save a password file please enter a master password for the file.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
-                tabControlMain.SelectedIndex = 1;
+                MessageBox.Show("To save a password file please enter at least 1 password.", "Password", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+
+        private void saveAs_Click(object sender, RoutedEventArgs e)
+        {
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            if (passWords.Count > 0)
+            {
+                if (masterPassword != null && masterPassword.Length > 5)
+                {
+                    foreach (Password password in passWords)
+                    {
+                        password.masterPassword = masterPassword;
+                    }
+
+                    if (saveFileDialog.ShowDialog() == true)
+                    {
+                        string fileName = saveFileDialog.FileName.ToString();
+                        savePasswords(fileName);
+                        string file = setSavedPasswordFileInfo(fileName);
+                        MessageBox.Show("Your password file: " + file +  " is saved.", "Saved!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("To save a password file please enter a master password for the file.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    tabControlMain.SelectedIndex = 1;
+                }
+            }
+            else
+            {
+                MessageBox.Show("To save a password file please enter at least 1 password.", "Password", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void savePasswords(string fileName)
+        {
+            XmlSerializer serialiser = new XmlSerializer(typeof(PasswordList));
+            PasswordList list = new PasswordList();
+
+            foreach (Password password in passWords)
+            {
+                list.Items.Add(password);
+            }
+
+            UnicodeEncoding aUE = new UnicodeEncoding();
+            byte[] key = aUE.GetBytes("password");
+            RijndaelManaged RMCrypto = new RijndaelManaged();
+
+            using (FileStream fs = File.Open(fileName.Replace(".xml", "") + ".xml", FileMode.Create))
+            {
+                using (CryptoStream cs = new CryptoStream(fs, RMCrypto.CreateEncryptor(key, key), CryptoStreamMode.Write))
+                {
+                    XmlSerializer xmlser = new XmlSerializer(typeof(PasswordList));
+                    xmlser.Serialize(cs, list);
+                }
+                fs.Close();
+            }
+        }
+
+        private string setSavedPasswordFileInfo(string filePath)
+        {
+            openedPasswordFile = filePath;
+            string file = System.IO.Path.GetFileName(filePath);
+            file = file.Replace(".xml", "") + ".xml";
+            lpasswordFileName.Content = file;
+            return file;
         }
 
 
@@ -162,6 +235,9 @@ namespace PassDash
             this.uMasterPassword.Password = "";
             this.tFreeSearch.Text = "";
             this.lerrSearch.Content = "";
+
+            openedPasswordFile = "";
+            this.lpasswordFileName.Content = "";
 
             resetPassWordForm();
             showPassWords();
@@ -744,10 +820,12 @@ namespace PassDash
         private void testData()
         {
 
-          //passWords.Add(new Password { name = "111", category= "new", website = "www.nu.nl", userName = "Wi", userPassword = "1234567", note = "note1", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
-          //passWords.Add(new Password { name = "111", category = "new", website = "www.nu.nl", userName = "Ro", userPassword = "1234567", note = "note2", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
-          // passWords.Add(new Password { name = "111", category = "new", website = "www.nu.nl", userName = "Eg", userPassword = "1234567", note = "note3", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
-          // passWords.Add(new Password { name = "111", category = "new", website = "www.nu.nl", userName = "Wi", userPassword = "1234567", note = "note4", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
+            this.uMasterPassword.Password = "Honingbij85!";
+            masterPassword = "Honingbij85!";
+            //passWords.Add(new Password { name = "111", category= "new", website = "www.nu.nl", userName = "Wi", userPassword = "1234567", note = "note1", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
+            //passWords.Add(new Password { name = "111", category = "new", website = "www.nu.nl", userName = "Ro", userPassword = "1234567", note = "note2", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
+            // passWords.Add(new Password { name = "111", category = "new", website = "www.nu.nl", userName = "Eg", userPassword = "1234567", note = "note3", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
+            // passWords.Add(new Password { name = "111", category = "new", website = "www.nu.nl", userName = "Wi", userPassword = "1234567", note = "note4", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
         }
         #endregion
 
