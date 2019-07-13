@@ -497,6 +497,8 @@ namespace PassDash
                 pieSeries.LabelPoint = chartPoint =>
                 string.Format(entry.Key.ToString() + "(" + entry.Value.ToString() + ")");
 
+                pieSeries.LabelPosition = PieLabelPosition.OutsideSlice;
+
                 //pieSeries.Values.Add(n9ew ChartValues<ObservableValue> { new ObservableValue(entry.Value) });
                 pieSeries.DataLabels = true;
 
