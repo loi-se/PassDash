@@ -22,6 +22,7 @@ using Microsoft.Win32;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
 using System.Data;
+using LiveCharts.Wpf.Points;
 
 namespace PassDash
 {
@@ -44,6 +45,8 @@ namespace PassDash
 
             this.bDelPassword.Visibility = Visibility.Hidden;
             this.bOpenWebsite.Visibility = Visibility.Hidden;
+            this.bShowAllPasswords.Visibility = Visibility.Hidden;
+
             testData();
             resetPassWordForm();
             showPassWords();
@@ -166,7 +169,13 @@ namespace PassDash
             showCatPieChart();
         }
 
-        
+        private void showAllPasswords_Click(object sender, RoutedEventArgs e)
+        {
+            
+            showPassWords();
+            this.bShowAllPasswords.Visibility = Visibility.Hidden;
+        }
+
 
 
         #endregion
@@ -481,12 +490,20 @@ namespace PassDash
 
                 PieSeries pieSeries = new PieSeries();
                 pieSeries.Title = entry.Key.ToString();
+                pieSeries.ToolTip = null;
+                pieSeries.FontSize = 11;
+                pieSeries.Foreground  = new SolidColorBrush(Colors.Black);
                 pieSeries.Values = new ChartValues<ObservableValue> { new ObservableValue(entry.Value) };
+                pieSeries.LabelPoint = chartPoint =>
+                string.Format(entry.Key.ToString() + "(" + entry.Value.ToString() + ")");
+
                 //pieSeries.Values.Add(n9ew ChartValues<ObservableValue> { new ObservableValue(entry.Value) });
                 pieSeries.DataLabels = true;
 
                 SeriesCollectionCat.Add(pieSeries);
             }
+
+            ChartCat.DataTooltip = null;
             ChartCat.Series = SeriesCollectionCat;
             ChartCat.DataContext = this;
 
@@ -591,6 +608,52 @@ namespace PassDash
                 ChartPass.DataContext = this;
             }
 
+        }
+
+        #endregion
+
+
+        #region chart event
+
+        private void ChartOnDataClick(object sender, ChartPoint p)
+        {
+
+            PieSeries pieSeries = new PieSeries();
+            pieSeries.LabelPoint = p.SeriesView.LabelPoint;   
+            string labelName = pieSeries.LabelPoint(p);
+
+            string[] labelNames = labelName.Split('(');
+
+            string category = "";
+            if (labelNames[0] != null)
+            {
+                category = labelNames[0];
+            }
+
+            List<Password> foundPasswords = new List<Password>();
+
+            foreach (Password password in passWords)
+            {
+               if (password.category == category)
+                {
+                    foundPasswords.Add(password);
+                }
+            }
+            listViewPasswords.Items.Clear();
+
+            int i = 1;
+            foreach (Password password in foundPasswords)
+            {
+                listViewPasswords.Items.Add(new Password { nr = i.ToString(), category = password.category, name = password.name, website = password.website, userName = password.userName, userPassword = password.userPassword, dateTime = password.dateTime, id = password.id });
+                i = i + 1;
+            }
+
+            if (foundPasswords.Count < passWords.Count)
+            {
+                this.bShowAllPasswords.Visibility = Visibility.Visible;
+            }
+
+            //MessageBox.Show(category);
         }
 
         #endregion
