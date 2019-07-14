@@ -76,19 +76,19 @@ namespace PassDash
                 txtBlockHelp1.Inlines.Add(new Bold(new Run("Import passwords from an excell file:" + Environment.NewLine + Environment.NewLine)));
                 txtBlockHelp1.Inlines.Add("Do the following in the Excell file you want to import: " + Environment.NewLine);
 
-                txtBlockHelp1.Inlines.Add("-In the column that contains the passwords place the following text at the first row:");
+                txtBlockHelp1.Inlines.Add("-In the column that contains the passwords (if present) place the following text at the first row:");
                 txtBlockHelp1.Inlines.Add(new Bold(new Run(" password" + Environment.NewLine)));
 
-                txtBlockHelp1.Inlines.Add("-In the column that contains the usernames place the following text at the first row:");
+                txtBlockHelp1.Inlines.Add("-In the column that contains the usernames (if present) place the following text at the first row:");
                 txtBlockHelp1.Inlines.Add(new Bold(new Run(" username" + Environment.NewLine)));
 
-                txtBlockHelp1.Inlines.Add("-In the column that contains the names place the following text at the first row:");
+                txtBlockHelp1.Inlines.Add("-In the column that contains the names (if present) place the following text at the first row:");
                 txtBlockHelp1.Inlines.Add(new Bold(new Run(" name" + Environment.NewLine)));
 
-                txtBlockHelp1.Inlines.Add("-In the column that contains the categories place the following text at the first row:");
+                txtBlockHelp1.Inlines.Add("-In the column that contains the categories (if present) place the following text at the first row:");
                 txtBlockHelp1.Inlines.Add(new Bold(new Run(" category" + Environment.NewLine)));
 
-                txtBlockHelp1.Inlines.Add("-In the column that contains the notes place the following text at the first row:");
+                txtBlockHelp1.Inlines.Add("-In the column that contains the notes (if present) place the following text at the first row:");
                 txtBlockHelp1.Inlines.Add(new Bold(new Run(" note" + Environment.NewLine + Environment.NewLine)));
 
                 txtBlockHelp1.Inlines.Add("You can see an example in the image below. It is important to place the texts at the");
@@ -96,12 +96,12 @@ namespace PassDash
                 txtBlockHelp1.Inlines.Add(" of the Excell file");
 
                 txtBlockHelp2.FontSize = 14;
-                txtBlockHelp2.Inlines.Add("At least the text: ");
+                txtBlockHelp2.Inlines.Add("At least the column: ");
                 txtBlockHelp2.Inlines.Add(new Bold(new Run(" name ")));
-                txtBlockHelp2.Inlines.Add(" or the text: ");
+                txtBlockHelp2.Inlines.Add(" or the column: ");
                 txtBlockHelp2.Inlines.Add(new Bold(new Run(" username ")));
                 txtBlockHelp2.Inlines.Add(" must be present.");
-                txtBlockHelp2.Inlines.Add(" The other texts do not have to be present. ");
+                txtBlockHelp2.Inlines.Add(" The other columns do not have to be present. ");
 
             }
         }
