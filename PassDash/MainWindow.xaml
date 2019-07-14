@@ -22,6 +22,9 @@
                 <Separator />
                 <MenuItem Header="_Exit" Click="exit_Click" />
             </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_Help" Click="help_Click" />
+            </MenuItem>
         </Menu>
         <TextBox AcceptsReturn="True" />
         <TabControl Name="tabControlMain">

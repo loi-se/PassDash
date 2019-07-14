@@ -41,6 +41,8 @@ namespace PassDash
 
         public string openedPasswordFile = "";
 
+        private Password selPassword = null;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -188,41 +190,7 @@ namespace PassDash
             }
         }
 
-        private void savePasswords(string fileName)
-        {
-            XmlSerializer serialiser = new XmlSerializer(typeof(PasswordList));
-            PasswordList list = new PasswordList();
-
-            foreach (Password password in passWords)
-            {
-                list.Items.Add(password);
-            }
-
-            UnicodeEncoding aUE = new UnicodeEncoding();
-            byte[] key = aUE.GetBytes("password");
-            RijndaelManaged RMCrypto = new RijndaelManaged();
-
-            using (FileStream fs = File.Open(fileName.Replace(".xml", "") + ".xml", FileMode.Create))
-            {
-                using (CryptoStream cs = new CryptoStream(fs, RMCrypto.CreateEncryptor(key, key), CryptoStreamMode.Write))
-                {
-                    XmlSerializer xmlser = new XmlSerializer(typeof(PasswordList));
-                    xmlser.Serialize(cs, list);
-                }
-                fs.Close();
-            }
-        }
-
-        private string setSavedPasswordFileInfo(string filePath)
-        {
-            openedPasswordFile = filePath;
-            string file = System.IO.Path.GetFileName(filePath);
-            file = file.Replace(".xml", "") + ".xml";
-            lpasswordFileName.Content = file;
-            return file;
-        }
-
-
+     
         private void exit_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
@@ -247,7 +215,7 @@ namespace PassDash
             showCatPieChart();
         }
 
-
+     
         private void import_Excell_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Office.Interop.Excel.Application xlApp;
@@ -432,10 +400,15 @@ namespace PassDash
             }
         }
 
+        private void help_Click(object sender, RoutedEventArgs e)
+        {
+            HelpWindows winHelp = new HelpWindows();
+            winHelp.Show();
+        }
 
         #endregion
 
-        #region button events
+            #region button events
 
         private void saveMasterPassword_Click(object sender, RoutedEventArgs e)
         {
@@ -508,16 +481,17 @@ namespace PassDash
 
         private void delPassword_Click(object sender, RoutedEventArgs e)
         {
-            if (listViewPasswords.SelectedItem != null)
+            if (MessageBox.Show("Delete this password?", "Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
-                Password password = (Password)listViewPasswords.SelectedItem;
-                string id = password.id;
 
-                if ((Password)listViewPasswords.SelectedItem != null)
+            }
+            else
+            {
+                if (selPassword != null)
                 {
                     foreach (Password mypassword in passWords)
                     {
-                        if (mypassword.id == id)
+                        if (mypassword.id == selPassword.id)
                         {
                             passWords.Remove(mypassword);
                             break;
@@ -527,10 +501,9 @@ namespace PassDash
                     showPassWords();
                     showPassWordPieChart();
                     showCatPieChart();
+                    selPassword = null;
                 }
             }
-
-
         }
 
         private void addPassword_Click(object sender, RoutedEventArgs e)
@@ -547,12 +520,12 @@ namespace PassDash
             if (this.bAddPassword.Content.ToString() == "Edit")
             {
 
-                if ((Password)listViewPasswords.SelectedItem != null)
+                if (selPassword != null)
                 {
                     if (valid == true)
                     {
-                        Password password = (Password)listViewPasswords.SelectedItem;
-                        string id = password.id;
+                        //Password password = (Password)listViewPasswords.SelectedItem;
+                        string id = selPassword.id;
 
                         foreach (Password mypassword in passWords)
                         {
@@ -571,7 +544,9 @@ namespace PassDash
                         showPassWordPieChart();
                         showCatPieChart();
                         resetPassWordForm();
+                        selPassword = null;
                     }
+                   
                 }
 
             }
@@ -602,6 +577,7 @@ namespace PassDash
 
         private void addNewPassword_Click(object sender, RoutedEventArgs e)
         {
+            selPassword = null;
             resetPassWordForm();
         }
 
@@ -688,7 +664,7 @@ namespace PassDash
             {
                 clearErrors();
                 Password password = (Password)listViewPasswords.SelectedItem;
-                Password selPassword = null;
+                selPassword = null;
                 string id = password.id;
 
                 foreach (Password mypassword in passWords)
@@ -748,6 +724,44 @@ namespace PassDash
             return ds;
         }
         #endregion
+
+        #region save methods
+        private void savePasswords(string fileName)
+        {
+            XmlSerializer serialiser = new XmlSerializer(typeof(PasswordList));
+            PasswordList list = new PasswordList();
+
+            foreach (Password password in passWords)
+            {
+                list.Items.Add(password);
+            }
+
+            UnicodeEncoding aUE = new UnicodeEncoding();
+            byte[] key = aUE.GetBytes("password");
+            RijndaelManaged RMCrypto = new RijndaelManaged();
+
+            using (FileStream fs = File.Open(fileName.Replace(".xml", "") + ".xml", FileMode.Create))
+            {
+                using (CryptoStream cs = new CryptoStream(fs, RMCrypto.CreateEncryptor(key, key), CryptoStreamMode.Write))
+                {
+                    XmlSerializer xmlser = new XmlSerializer(typeof(PasswordList));
+                    xmlser.Serialize(cs, list);
+                }
+                fs.Close();
+            }
+        }
+
+        private string setSavedPasswordFileInfo(string filePath)
+        {
+            openedPasswordFile = filePath;
+            string file = System.IO.Path.GetFileName(filePath);
+            file = file.Replace(".xml", "") + ".xml";
+            lpasswordFileName.Content = file;
+            return file;
+        }
+        #endregion
+
+
 
         #region general methods
         private void showPassWords()
