@@ -23,6 +23,8 @@ using System.Text.RegularExpressions;
 using System.Security.Cryptography;
 using System.Data;
 using LiveCharts.Wpf.Points;
+using Microsoft.Office.Interop;
+using System.Runtime.InteropServices;
 
 namespace PassDash
 {
@@ -245,71 +247,188 @@ namespace PassDash
             showCatPieChart();
         }
 
-        private void showAllPasswords_Click(object sender, RoutedEventArgs e)
+
+        private void import_Excell_Click(object sender, RoutedEventArgs e)
         {
-            showPassWords();
-            this.bShowAllPasswords.Visibility = Visibility.Hidden;
-            this.tFreeSearch.Text = "";
-            this.lerrSearch.Content = "";
-        }
+            Microsoft.Office.Interop.Excel.Application xlApp;
+            Microsoft.Office.Interop.Excel.Workbook xlWorkBook;
+            Microsoft.Office.Interop.Excel.Worksheet xlWorkSheet;
+            Microsoft.Office.Interop.Excel.Range range;
 
+            string str;
+            int rCnt;
+            int cCnt;
+            int rw = 0;
+            int cl = 0;
 
-        private void searchAllPasswords_Click(object sender, RoutedEventArgs e)
-        {
-            List<Password> foundPasswords = new List<Password>();
-            string searchQuery = tFreeSearch.Text;
-            lerrSearch.Content = "";
-
-            if (searchQuery.Length > 2)
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+            string fileName = "";
+            if (openFileDialog.ShowDialog() == true)
             {
+                fileName = openFileDialog.FileName.ToString();
 
-                foreach (Password password in passWords)
+
+                xlApp = new Microsoft.Office.Interop.Excel.Application();
+                xlWorkBook = xlApp.Workbooks.Open(fileName, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
+                xlWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
+
+                range = xlWorkSheet.UsedRange;
+                rw = range.Rows.Count;
+                cl = range.Columns.Count;
+
+                int rowCount = 0;
+                Dictionary<int, string> passWordColumns = new Dictionary<int, string>();
+
+                for (rCnt = 1; rCnt <= rw; rCnt++)
                 {
-                    Boolean foundPassword = false;
 
-                    if (password.name != null && password.name.ToLower().Contains(searchQuery))
-                    {
-                        foundPassword = true;
+                    Password newPassword = new Password();
+                    Boolean passwordValid = false;
 
-                    }
-                    else if (password.userName != null && password.userName.ToLower().Contains(searchQuery))
+                    for (cCnt = 1; cCnt <= cl; cCnt++)
                     {
-                        foundPassword = true;
+                        str = Convert.ToString((range.Cells[rCnt, cCnt] as Microsoft.Office.Interop.Excel.Range).Value2);
+                        if (rowCount == 0)
+                        {
+                            if (str != null)
+                            {
+                                if (str.ToLower() == "name")
+                                {
+                                    passWordColumns.Add(cCnt, "name");
+                                }
+                                else if (str.ToLower() == "username")
+                                {
+                                    passWordColumns.Add(cCnt, "username");
+                                }
+                                else if (str.ToLower() == "password")
+                                {
+                                    passWordColumns.Add(cCnt, "password");
+                                }
+                                else if (str.ToLower() == "note")
+                                {
+                                    passWordColumns.Add(cCnt, "note");
+                                }
+                                else if (str.ToLower() == "category")
+                                {
+                                    passWordColumns.Add(cCnt, "category");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (passWordColumns.ContainsKey(cCnt))
+                            {
+                                string column = passWordColumns[cCnt];
+                                if (column == "name")
+                                {
+                                    if (str == null)
+                                    {
+                                        newPassword.name = "";
+                                    }
+                                    else
+                                    {
+                                        newPassword.name = str;
+                                    }
+                                }
+                                else if (column == "username")
+                                {
+                                    if (str == null)
+                                    {
+                                        newPassword.userName = "";
+                                    }
+                                    else
+                                    {
+                                        newPassword.userName = str;
+                                    }
+                                }
+                                else if (column == "password")
+                                {
+                                    if (str == null)
+                                    {
+                                        newPassword.userPassword = "";
+                                    }
+                                    else
+                                    {
+                                        newPassword.userPassword = str;
+                                    }
+                                }
+                                else if (column == "note")
+                                {
+                                    if (str == null)
+                                    {
+                                        newPassword.note = "";
+                                    }
+                                    else
+                                    {
+                                        newPassword.note = str;
+                                    }
+                                }
+                                else if (column == "category")
+                                {
+                                    if (str == null)
+                                    {
+                                        newPassword.category = "";
+                                    }
+                                    else
+                                    {
+                                        newPassword.category = str;
+                                    }
+                                }
+                            }
+
+                            if ((newPassword.name != "" && newPassword.name != null) || (newPassword.userName != "" && newPassword.userName != null))
+                            {
+                                passwordValid = true;
+                            }
+                        }
                     }
-                    else if (password.userPassword != null && password.userPassword.ToLower().Contains(searchQuery))
-                    {
-                        foundPassword = true;
-                    }
-                    else if (password.note != null && password.note.ToLower().Contains(searchQuery))
+
+                    if (passwordValid == true)
                     {
 
-                        foundPassword = true;
-                    }
-                    else if (password.category != null && password.category.ToLower().Contains(searchQuery))
-                    {
-                        foundPassword = true;
-                    }
+                        if (newPassword.name == null)
+                        {
+                            newPassword.name = "";
+                        }
+                        if (newPassword.userPassword == null)
+                        {
+                            newPassword.userPassword = "";
+                        }
+                        if (newPassword.userName == null)
+                        {
+                            newPassword.userName = "";
+                        }
+                        if (newPassword.note == null)
+                        {
+                            newPassword.note = "";
+                        }
+                       if (newPassword.category == null)
+                        {
+                            newPassword.category = "";
+                        }
 
-                    if (foundPassword == true)
-                    {
 
-                        foundPasswords.Add(password);
+                        newPassword.id = Guid.NewGuid().ToString();
+                        newPassword.dateTime = DateTime.Now.ToShortDateString();
+                        //newPassword.category = "";
+                        newPassword.nr = "";
+                        newPassword.website = "";
+                        passWords.Add(newPassword);
                     }
+                    rowCount = rowCount + 1;
                 }
 
-                if (foundPasswords.Count > 0)
-                {
-                    showFoundPasswords(foundPasswords);
-                }
-                else
-                {
-                    lerrSearch.Content = "No passwords found.";
-                   
-                }
-            }
-            else
-            {
-                lerrSearch.Content = "Search query should have at least 3 characters.";
+                xlWorkBook.Close(true, null, null);
+                xlApp.Quit();
+
+                Marshal.ReleaseComObject(xlWorkSheet);
+                Marshal.ReleaseComObject(xlWorkBook);
+                Marshal.ReleaseComObject(xlApp);
+
+                showPassWords();
+                showPassWordPieChart();
+                showCatPieChart();
             }
         }
 
@@ -484,6 +603,73 @@ namespace PassDash
         private void addNewPassword_Click(object sender, RoutedEventArgs e)
         {
             resetPassWordForm();
+        }
+
+        private void showAllPasswords_Click(object sender, RoutedEventArgs e)
+        {
+            showPassWords();
+            this.bShowAllPasswords.Visibility = Visibility.Hidden;
+            this.tFreeSearch.Text = "";
+            this.lerrSearch.Content = "";
+        }
+
+        private void searchAllPasswords_Click(object sender, RoutedEventArgs e)
+        {
+            List<Password> foundPasswords = new List<Password>();
+            string searchQuery = tFreeSearch.Text;
+            lerrSearch.Content = "";
+
+            if (searchQuery.Length > 2)
+            {
+
+                foreach (Password password in passWords)
+                {
+                    Boolean foundPassword = false;
+
+                    if (password.name != null && password.name.ToLower().Contains(searchQuery.ToLower()))
+                    {
+                        foundPassword = true;
+
+                    }
+                    else if (password.userName != null && password.userName.ToLower().Contains(searchQuery.ToLower()))
+                    {
+                        foundPassword = true;
+                    }
+                    else if (password.userPassword != null && password.userPassword.ToLower().Contains(searchQuery.ToLower()))
+                    {
+                        foundPassword = true;
+                    }
+                    else if (password.note != null && password.note.ToLower().Contains(searchQuery.ToLower()))
+                    {
+
+                        foundPassword = true;
+                    }
+                    else if (password.category != null && password.category.ToLower().Contains(searchQuery.ToLower()))
+                    {
+                        foundPassword = true;
+                    }
+
+                    if (foundPassword == true)
+                    {
+
+                        foundPasswords.Add(password);
+                    }
+                }
+
+                if (foundPasswords.Count > 0)
+                {
+                    showFoundPasswords(foundPasswords);
+                }
+                else
+                {
+                    lerrSearch.Content = "No passwords found.";
+
+                }
+            }
+            else
+            {
+                lerrSearch.Content = "Search query should have at least 3 characters.";
+            }
         }
 
         #endregion

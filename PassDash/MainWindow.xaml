@@ -15,6 +15,10 @@
                 <MenuItem Header="_Open" Click="open_Click" />
                 <MenuItem Header="_Save" Click="save_Click"/>
                 <MenuItem Header="_Save As" Click="saveAs_Click"/>
+
+                <MenuItem Header="Import">
+                    <MenuItem Header="Import from Excell" Click="import_Excell_Click" />
+                </MenuItem>
                 <Separator />
                 <MenuItem Header="_Exit" Click="exit_Click" />
             </MenuItem>
