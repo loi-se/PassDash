@@ -400,6 +400,53 @@ namespace PassDash
             }
         }
 
+
+        private void export_Excell_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Execl files (*.xlsx)|*.xlsx";
+            saveFileDialog.FilterIndex = 0;
+            saveFileDialog.RestoreDirectory = true;
+            saveFileDialog.CreatePrompt = true;
+            saveFileDialog.Title = "Export Excel File To";
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                Microsoft.Office.Interop.Excel.Application app = new Microsoft.Office.Interop.Excel.Application();
+                app.Visible = true;
+                Microsoft.Office.Interop.Excel.Workbook wb = app.Workbooks.Add(1);
+                Microsoft.Office.Interop.Excel.Worksheet ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
+                int i = 1;
+                int i2 = 1;
+
+                ws.Cells[i2, 1] = "nr";
+                ws.Cells[i2, 2] = "name";
+                ws.Cells[i2, 3] = "category";
+                ws.Cells[i2, 4] = "username";
+                ws.Cells[i2, 5] = "password";
+                ws.Cells[i2, 6] = "note";
+                ws.Cells[i2, 7] = "website";
+
+                foreach (Password password in passWords)
+                {
+                    i2++;
+                    ws.Cells[i2, 1] = password.nr;
+                    ws.Cells[i2, 2] = password.name;
+                    ws.Cells[i2, 3] = password.category;
+                    ws.Cells[i2, 4] = password.userName;
+                    ws.Cells[i2, 5] = password.userPassword;
+                    ws.Cells[i2, 6] = password.note;
+                    ws.Cells[i2, 7] = password.website;
+
+                }
+                //wb.Save();
+                wb.SaveAs(saveFileDialog.FileName.ToString(), Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing,
+                  Type.Missing, Type.Missing);
+                //wb.Close(false, Type.Missing, Type.Missing);
+                //app.Quit();
+            }
+        }
+
         private void help_Click(object sender, RoutedEventArgs e)
         {
             HelpWindows winHelp = new HelpWindows();

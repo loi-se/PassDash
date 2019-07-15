@@ -19,6 +19,9 @@
                 <MenuItem Header="Import">
                     <MenuItem Header="Import from Excell" Click="import_Excell_Click" />
                 </MenuItem>
+                <MenuItem Header="Export">
+                    <MenuItem Header="Export to Excell" Click="export_Excell_Click" />
+                </MenuItem>
                 <Separator />
                 <MenuItem Header="_Exit" Click="exit_Click" />
             </MenuItem>

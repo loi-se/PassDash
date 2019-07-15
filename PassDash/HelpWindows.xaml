@@ -9,7 +9,7 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_Exit PassDash Help" Click="exit_Click" />
+                <MenuItem Header="_Exit Help menu" Click="exit_Click" />
             </MenuItem>
         </Menu>
         <Grid>
