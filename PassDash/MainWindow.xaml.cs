@@ -701,14 +701,16 @@ namespace PassDash
         private void listView_Click(object sender, RoutedEventArgs e)
         {
 
-            this.bAddPassword.Content = "Edit";
-            this.lpassWordForm.Content = "Edit/view your password:";
-            this.bDelPassword.Visibility = Visibility.Visible;
-            this.bOpenWebsite.Visibility = Visibility.Visible;
-            clearPasswordForm();
+          
 
             if ((Password)listViewPasswords.SelectedItem != null)
             {
+                this.bAddPassword.Content = "Edit";
+                this.lpassWordForm.Content = "Edit/view your password:";
+                this.bDelPassword.Visibility = Visibility.Visible;
+                this.bOpenWebsite.Visibility = Visibility.Visible;
+                clearPasswordForm();
+
                 clearErrors();
                 Password password = (Password)listViewPasswords.SelectedItem;
                 selPassword = null;
