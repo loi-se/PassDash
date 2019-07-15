@@ -42,6 +42,9 @@ namespace PassDash
         public string openedPasswordFile = "";
 
         private Password selPassword = null;
+        private bool categorySelected = false;
+
+        public Stack<int> saveHistory = new Stack<int>();
 
         public MainWindow()
         {
@@ -53,12 +56,36 @@ namespace PassDash
             this.bOpenWebsite.Visibility = Visibility.Hidden;
             this.bShowAllPasswords.Visibility = Visibility.Hidden;
 
+            tabControlMain.SelectedIndex = 1;
+            tabItemPasswords.IsEnabled = false;
+            tabItemPasswords.Visibility = Visibility.Hidden;
+            menuItemNoFile();
+
             //testData();
             resetPassWordForm();
             showPassWords();
             showPassWordPieChart();
         }
 
+        public void menuItemOpenFile()
+        {
+            menuItemSave.IsEnabled = true;
+            menuItemSaveAs.IsEnabled = true;
+            menuItemExport.IsEnabled = true;
+            menuItemExportExcell.IsEnabled = true;
+            menuItemImport.IsEnabled = true;
+            menuItemImportExcell.IsEnabled = true;
+        }
+
+        public void menuItemNoFile()
+        {
+            menuItemSave.IsEnabled = false;
+            menuItemSaveAs.IsEnabled = false;
+            menuItemImport.IsEnabled = false;
+            menuItemExportExcell.IsEnabled = false;
+            menuItemImportExcell.IsEnabled = false;
+            menuItemExport.IsEnabled = false;
+        }
 
         #region menu events
         private void open_Click(object sender, RoutedEventArgs e)
@@ -81,29 +108,37 @@ namespace PassDash
                             new XmlRootAttribute("password_list"));
                         passWords = (List<Password>)deserializer.Deserialize(reader);
                     }
-                }
 
-                string fileMasterPassword = "";
-                foreach (Password password in passWords)
-                {
-                    fileMasterPassword = password.masterPassword;
-                    break;
-                }
 
-                if (fileMasterPassword != "" && masterPassword == fileMasterPassword)
-                {
+                    string fileMasterPassword = "";
+                    foreach (Password password in passWords)
+                    {
+                        fileMasterPassword = password.masterPassword;
+                        break;
+                    }
 
-                    string file = setSavedPasswordFileInfo(fileName);
-                    MessageBox.Show("Password file: " + file + " opened succesfully.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    showPassWords();
-                    showPassWordPieChart();
-                    showCatPieChart();
-                }
-                else
-                {
-                    MessageBox.Show("You have entered the wrong master password for this password file. This password file can't be opened.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
+                    if (fileMasterPassword != "" && masterPassword == fileMasterPassword)
+                    {
 
+                        string file = setSavedPasswordFileInfo(fileName);
+                        MessageBox.Show("Password file: " + file + " opened succesfully.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                        tabItemPasswords.IsEnabled = true;
+                        tabItemPasswords.Visibility = Visibility.Visible;
+                        tabControlMain.SelectedIndex = 0;
+                        menuItemOpenFile();
+
+                        saveHistory.Push(passWords.Count());
+                        showPassWords();
+                        showPassWordPieChart();
+                        showCatPieChart();
+                        
+                    }
+                    else
+                    {
+                        MessageBox.Show("You have entered the wrong master password for this password file. This password file can't be opened.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                }
             }
             else
             {
@@ -135,6 +170,8 @@ namespace PassDash
                             savePasswords(fileName);
                             string file = setSavedPasswordFileInfo(fileName);
                             MessageBox.Show("Your password file: " + file + " is saved.", "Saved!", MessageBoxButton.OK, MessageBoxImage.Information);
+                            saveHistory.Push(passWords.Count());
+                            showPassWords();
                         }
                     }
                     else if (openedPasswordFile != "")
@@ -142,6 +179,8 @@ namespace PassDash
                         savePasswords(openedPasswordFile);
                         string file = setSavedPasswordFileInfo(openedPasswordFile);
                         MessageBox.Show("Your password file: " + file + " is saved.", "Saved!", MessageBoxButton.OK, MessageBoxImage.Information);
+                        saveHistory.Push(passWords.Count());
+                        showPassWords();
                     }
                 }
                 else
@@ -176,6 +215,8 @@ namespace PassDash
                         savePasswords(fileName);
                         string file = setSavedPasswordFileInfo(fileName);
                         MessageBox.Show("Your password file: " + file +  " is saved.", "Saved!", MessageBoxButton.OK, MessageBoxImage.Information);
+                        saveHistory.Push(passWords.Count());
+                        showPassWords();
                     }
                 }
                 else
@@ -213,6 +254,11 @@ namespace PassDash
             showPassWords();
             showPassWordPieChart();
             showCatPieChart();
+
+            tabControlMain.SelectedIndex = 0;
+            tabItemPasswords.IsEnabled = true;
+            tabItemPasswords.Visibility = Visibility.Visible;
+            menuItemOpenFile();
         }
 
      
@@ -481,8 +527,8 @@ namespace PassDash
             if (password.Success)
             {
 
-                MessageBox.Show("Master password saved!", "Master password!", MessageBoxButton.OK, MessageBoxImage.Information);
-                tabControlMain.SelectedIndex = 0;
+                MessageBox.Show("Master password saved. You can now save or open a password file.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Information);
+                //tabControlMain.SelectedIndex = 0;
             }
             else
             {
@@ -831,6 +877,21 @@ namespace PassDash
             }
 
             lpasswordListView.Content = "My Passwords" + " (" + passWords.Count.ToString() + ")" + ":";
+            int lastSavePasswordCount = 0;
+            if (saveHistory.Count > 0)
+            {
+                lastSavePasswordCount = saveHistory.Peek();
+            }
+
+            if (lastSavePasswordCount < passWords.Count())
+            {
+                lpasswordFileName.Foreground = Brushes.Red;
+            }
+            else if (lastSavePasswordCount == passWords.Count())
+            {
+                lpasswordFileName.Foreground = Brushes.Green;
+            }
+
         }
 
         private void resetPassWordForm()
@@ -885,6 +946,7 @@ namespace PassDash
             }
 
             lerrSearch.Content = "";
+            lpasswordListView.Content = "My Passwords" + " (" + foundPasswords.Count + "/" + passWords.Count.ToString() + ")" + ":";
         }
 
         #endregion

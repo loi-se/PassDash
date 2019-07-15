@@ -11,16 +11,16 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_New" Click="new_Click" />
-                <MenuItem Header="_Open" Click="open_Click" />
-                <MenuItem Header="_Save" Click="save_Click"/>
-                <MenuItem Header="_Save As" Click="saveAs_Click"/>
+                <MenuItem Name="menuItemNew" Header="_New" Click="new_Click" />
+                <MenuItem Name="menuItemOpen" Header="_Open" Click="open_Click" />
+                <MenuItem Name="menuItemSave" Header="_Save" Click="save_Click"/>
+                <MenuItem Name="menuItemSaveAs" Header="_Save As" Click="saveAs_Click"/>
 
-                <MenuItem Header="Import">
-                    <MenuItem Header="Import from Excell" Click="import_Excell_Click" />
+                <MenuItem Name="menuItemImport" Header="Import">
+                    <MenuItem Name="menuItemImportExcell" Header="Import from Excell" Click="import_Excell_Click" />
                 </MenuItem>
-                <MenuItem Header="Export">
-                    <MenuItem Header="Export to Excell" Click="export_Excell_Click" />
+                <MenuItem Name="menuItemExport" Header="Export">
+                    <MenuItem Name="menuItemExportExcell" Header="Export to Excell" Click="export_Excell_Click" />
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="_Exit" Click="exit_Click" />
@@ -61,7 +61,7 @@
                 </Style>
             </TabControl.Resources>
 
-            <TabItem Header="My Passwords" FontSize="14">
+            <TabItem Name="tabItemPasswords" Header="My Passwords" FontSize="14">
                 <Grid ShowGridLines="False">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -228,7 +228,7 @@
                     </DockPanel>
                 </Grid>
             </TabItem>
-            <TabItem Header="Master password">
+            <TabItem Name ="tabItemMasterPassword" Header="Master password">
                 <Grid ShowGridLines="False">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
