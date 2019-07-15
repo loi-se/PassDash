@@ -6,31 +6,40 @@
         xmlns:local="clr-namespace:PassDash"
         mc:Ignorable="d"
         Title="PassDash Help" WindowState="Maximized" HorizontalAlignment="Center">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="83*"/>
-            <ColumnDefinition Width="209*"/>
-        </Grid.ColumnDefinitions>
-        <DockPanel Grid.Column="0" Grid.Row="0">
-            <Border CornerRadius="3" BorderBrush="#FF5E645E" Background="White" BorderThickness="3" Margin="1">
-                <TreeView Name="treeViewHelp"/>
-            </Border>
-        </DockPanel>
-        <DockPanel Grid.Column="1" Grid.Row="0">
-            <Border CornerRadius="3" BorderBrush="#FF5E645E" Background="White" BorderThickness="3" Margin="1">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Name="txtBlockHelp1">
-                </TextBlock>
-                <Image Name="imgHelp" HorizontalAlignment="Left" VerticalAlignment="Top" ></Image>
-                <Image Name="imgHelp2" Height="100"></Image>
-                <TextBlock Name="txtBlockHelp2">
-                </TextBlock>
-            </StackPanel>
-            </Border>
-        </DockPanel>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Exit PassDash Help" Click="exit_Click" />
+            </MenuItem>
+        </Menu>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="83*"/>
+                <ColumnDefinition Width="209*"/>
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0" Grid.Row="0">
+                <Border CornerRadius="3" BorderBrush="#FF5E645E" Background="White" BorderThickness="3" Margin="1">
+                    <TreeView Name="treeViewHelp"/>
+                </Border>
+            </DockPanel>
+            <DockPanel Grid.Column="1" Grid.Row="0">
+                <Border CornerRadius="3" BorderBrush="#FF5E645E" Background="White" BorderThickness="3" Margin="1">
+                    <ScrollViewer IsTabStop="True" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Name="txtBlockHelp1">
+                            </TextBlock>
+                            <Image Name="imgHelp" HorizontalAlignment="Left" VerticalAlignment="Top" ></Image>
+                            <Image Name="imgHelp2" Height="100"></Image>
+                            <TextBlock Name="txtBlockHelp2">
+                            </TextBlock>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+            </DockPanel>
 
-    </Grid>
+        </Grid>
+    </DockPanel>
 </Window>
