@@ -11,7 +11,7 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Name="menuItemCloseFile" Header="_Close File" Click="closeFile_Click"/>
+              
                 <MenuItem Name="menuItemSave" Header="_Save" Click="save_Click"/>
                 <MenuItem Name="menuItemSaveAs" Header="_Save As" Click="saveAs_Click"/>
 
@@ -21,6 +21,7 @@
                 <MenuItem Name="menuItemExport" Header="Export">
                     <MenuItem Name="menuItemExportExcell" Header="Export to Excell" Click="export_Excell_Click" />
                 </MenuItem>
+                <MenuItem Name="menuItemCloseFile" Header="_Close File" Click="closeFile_Click"/>
                 <Separator />
                 <MenuItem Header="_Exit" Click="exit_Click" />
             </MenuItem>

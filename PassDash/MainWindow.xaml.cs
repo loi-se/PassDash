@@ -67,28 +67,6 @@ namespace PassDash
             showPassWordPieChart();
         }
 
-        public void menuItemOpenFile()
-        {
-            menuItemCloseFile.IsEnabled = true;
-            menuItemSave.IsEnabled = true;
-            menuItemSaveAs.IsEnabled = true;
-            menuItemExport.IsEnabled = true;
-            menuItemExportExcell.IsEnabled = true;
-            menuItemImport.IsEnabled = true;
-            menuItemImportExcell.IsEnabled = true;
-        }
-
-        public void menuItemNoFile()
-        {
-            menuItemCloseFile.IsEnabled = false;
-            menuItemSave.IsEnabled = false;
-            menuItemSaveAs.IsEnabled = false;
-            menuItemImport.IsEnabled = false;
-            menuItemExportExcell.IsEnabled = false;
-            menuItemImportExcell.IsEnabled = false;
-            menuItemExport.IsEnabled = false;
-        }
-
         #region menu events
         private void save_Click(object sender, RoutedEventArgs e)
         {
@@ -97,7 +75,6 @@ namespace PassDash
 
         private void saveAs_Click(object sender, RoutedEventArgs e)
         {
-
             saveAsPassword(false);
         }
 
@@ -112,12 +89,12 @@ namespace PassDash
             ucCategory.Items.Clear();
             passWords.Clear();
             this.bShowAllPasswords.Visibility = Visibility.Hidden;
-            this.uMasterPassword.Password = "";
+            //this.uMasterPassword.Password = "";
             this.tFreeSearch.Text = "";
             this.lerrSearch.Content = "";
 
             openedPasswordFile = "";
-            masterPassword = "";
+            //masterPassword = "";
             resetPassWordForm();
             showPassWords();
             showPassWordPieChart();
@@ -763,8 +740,6 @@ namespace PassDash
         #endregion
 
         #region save methods
-
-
         private void savePassword()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -895,11 +870,32 @@ namespace PassDash
             lpasswordFileName.Content = file;
             return file;
         }
+
         #endregion
 
-
-
         #region general methods
+
+        public void menuItemOpenFile()
+        {
+            menuItemCloseFile.IsEnabled = true;
+            menuItemSave.IsEnabled = true;
+            menuItemSaveAs.IsEnabled = true;
+            menuItemExport.IsEnabled = true;
+            menuItemExportExcell.IsEnabled = true;
+            menuItemImport.IsEnabled = true;
+            menuItemImportExcell.IsEnabled = true;
+        }
+
+        public void menuItemNoFile()
+        {
+            menuItemCloseFile.IsEnabled = false;
+            menuItemSave.IsEnabled = false;
+            menuItemSaveAs.IsEnabled = false;
+            menuItemImport.IsEnabled = false;
+            menuItemExportExcell.IsEnabled = false;
+            menuItemImportExcell.IsEnabled = false;
+            menuItemExport.IsEnabled = false;
+        }
 
         private Boolean checkMasterPassword()
         {
@@ -958,7 +954,7 @@ namespace PassDash
 
             }
 
-            lpasswordListView.Content = "My Passwords" + " (" + passWords.Count.ToString() + ")" + ":";
+            lpasswordListView.Content = "My Passwords" + " (" + (passWords.Count -1).ToString() + ")" + ":";
             int lastSavePasswordCount = 0;
             if (saveHistory.Count > 0)
             {
@@ -1028,7 +1024,7 @@ namespace PassDash
             }
 
             lerrSearch.Content = "";
-            lpasswordListView.Content = "My Passwords" + " (" + foundPasswords.Count + "/" + passWords.Count.ToString() + ")" + ":";
+            lpasswordListView.Content = "My Passwords" + " (" + foundPasswords.Count + "/" + (passWords.Count - 1).ToString() + ")" + ":";
         }
 
         #endregion
