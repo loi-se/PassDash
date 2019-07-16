@@ -56,7 +56,7 @@ namespace PassDash
             this.bOpenWebsite.Visibility = Visibility.Hidden;
             this.bShowAllPasswords.Visibility = Visibility.Hidden;
 
-            tabControlMain.SelectedIndex = 1;
+            tabControlMain.SelectedIndex = 0;
             tabItemPasswords.IsEnabled = false;
             tabItemPasswords.Visibility = Visibility.Hidden;
             menuItemNoFile();
@@ -69,6 +69,7 @@ namespace PassDash
 
         public void menuItemOpenFile()
         {
+            menuItemCloseFile.IsEnabled = true;
             menuItemSave.IsEnabled = true;
             menuItemSaveAs.IsEnabled = true;
             menuItemExport.IsEnabled = true;
@@ -79,6 +80,7 @@ namespace PassDash
 
         public void menuItemNoFile()
         {
+            menuItemCloseFile.IsEnabled = false;
             menuItemSave.IsEnabled = false;
             menuItemSaveAs.IsEnabled = false;
             menuItemImport.IsEnabled = false;
@@ -88,147 +90,15 @@ namespace PassDash
         }
 
         #region menu events
-        private void open_Click(object sender, RoutedEventArgs e)
-        {
-            string fileName = "";
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            if (masterPassword != null && masterPassword.Length > 5)
-            {
-                if (openFileDialog.ShowDialog() == true)
-                {
-                    fileName = openFileDialog.FileName.ToString();
-                    openedPasswordFile = fileName;
-                    DataSet ds = DecryptAndDeserialize(fileName);
-                    string xml = ds.GetXml();
-
-                    using (TextReader reader = new StringReader(xml))
-                    {
-                        XmlSerializer deserializer = new XmlSerializer(typeof(List<Password>),
-                            new XmlRootAttribute("password_list"));
-                        passWords = (List<Password>)deserializer.Deserialize(reader);
-                    }
-
-
-                    string fileMasterPassword = "";
-                    foreach (Password password in passWords)
-                    {
-                        fileMasterPassword = password.masterPassword;
-                        break;
-                    }
-
-                    if (fileMasterPassword != "" && masterPassword == fileMasterPassword)
-                    {
-
-                        string file = setSavedPasswordFileInfo(fileName);
-                        MessageBox.Show("Password file: " + file + " opened succesfully.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
-
-                        tabItemPasswords.IsEnabled = true;
-                        tabItemPasswords.Visibility = Visibility.Visible;
-                        tabControlMain.SelectedIndex = 0;
-                        menuItemOpenFile();
-
-                        saveHistory.Push(passWords.Count());
-                        showPassWords();
-                        showPassWordPieChart();
-                        showCatPieChart();
-                        
-                    }
-                    else
-                    {
-                        MessageBox.Show("You have entered the wrong master password for this password file. This password file can't be opened.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("To open a password file please enter the corresponding master password.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
-                tabControlMain.SelectedIndex = 1;
-            }
-
-        }
-
         private void save_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-
-            if (passWords.Count > 0)
-            {
-                if (masterPassword != null && masterPassword.Length > 5)
-                {
-                    foreach (Password password in passWords)
-                    {
-                        password.masterPassword = masterPassword;
-                    }
-
-
-                    if (openedPasswordFile == "")
-                    {
-                        if (saveFileDialog.ShowDialog() == true)
-                        {
-                            string fileName = saveFileDialog.FileName.ToString();
-                            savePasswords(fileName);
-                            string file = setSavedPasswordFileInfo(fileName);
-                            MessageBox.Show("Your password file: " + file + " is saved.", "Saved!", MessageBoxButton.OK, MessageBoxImage.Information);
-                            saveHistory.Push(passWords.Count());
-                            showPassWords();
-                        }
-                    }
-                    else if (openedPasswordFile != "")
-                    {
-                        savePasswords(openedPasswordFile);
-                        string file = setSavedPasswordFileInfo(openedPasswordFile);
-                        MessageBox.Show("Your password file: " + file + " is saved.", "Saved!", MessageBoxButton.OK, MessageBoxImage.Information);
-                        saveHistory.Push(passWords.Count());
-                        showPassWords();
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("To save a password file please enter a master password for the file.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    tabControlMain.SelectedIndex = 1;
-                }
-            }
-            else
-            {
-                MessageBox.Show("To save a password file please enter at least 1 password.", "Password", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+            savePassword();
         }
 
         private void saveAs_Click(object sender, RoutedEventArgs e)
         {
 
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-
-            if (passWords.Count > 0)
-            {
-                if (masterPassword != null && masterPassword.Length > 5)
-                {
-                    foreach (Password password in passWords)
-                    {
-                        password.masterPassword = masterPassword;
-                    }
-
-                    if (saveFileDialog.ShowDialog() == true)
-                    {
-                        string fileName = saveFileDialog.FileName.ToString();
-                        savePasswords(fileName);
-                        string file = setSavedPasswordFileInfo(fileName);
-                        MessageBox.Show("Your password file: " + file +  " is saved.", "Saved!", MessageBoxButton.OK, MessageBoxImage.Information);
-                        saveHistory.Push(passWords.Count());
-                        showPassWords();
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("To save a password file please enter a master password for the file.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    tabControlMain.SelectedIndex = 1;
-                }
-            }
-            else
-            {
-                MessageBox.Show("To save a password file please enter at least 1 password.", "Password", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+            saveAsPassword(false);
         }
 
      
@@ -237,28 +107,26 @@ namespace PassDash
             System.Windows.Application.Current.Shutdown();
         }
 
-        private void new_Click(object sender, RoutedEventArgs e)
+        private void closeFile_Click(object sender, RoutedEventArgs e)
         {
-            passWords = new List<Password>();
-            masterPassword = "";
             ucCategory.Items.Clear();
+            passWords.Clear();
             this.bShowAllPasswords.Visibility = Visibility.Hidden;
             this.uMasterPassword.Password = "";
             this.tFreeSearch.Text = "";
             this.lerrSearch.Content = "";
 
             openedPasswordFile = "";
-            this.lpasswordFileName.Content = "";
-
+            masterPassword = "";
             resetPassWordForm();
             showPassWords();
             showPassWordPieChart();
             showCatPieChart();
-
+            menuItemNoFile();
             tabControlMain.SelectedIndex = 0;
-            tabItemPasswords.IsEnabled = true;
-            tabItemPasswords.Visibility = Visibility.Visible;
-            menuItemOpenFile();
+            tabItemPasswords.IsEnabled = false;
+            tabItemPasswords.Visibility = Visibility.Hidden;
+
         }
 
      
@@ -503,37 +371,111 @@ namespace PassDash
 
             #region button events
 
-        private void saveMasterPassword_Click(object sender, RoutedEventArgs e)
+        private void bOpenFile_Click(object sender, RoutedEventArgs e)
         {
-
-            if (chkMasterPassword.IsChecked == true)
+            Boolean validMasterPassword = checkMasterPassword();
+            if (validMasterPassword == true)
             {
-                masterPassword = this.uTxtMasterPassword.Text.ToString();
+                string fileName = "";
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+
+                    if (openFileDialog.ShowDialog() == true)
+                    {
+                        fileName = openFileDialog.FileName.ToString();
+                        openedPasswordFile = fileName;
+                        DataSet ds = DecryptAndDeserialize(fileName);
+                        string xml = ds.GetXml();
+
+                        using (TextReader reader = new StringReader(xml))
+                        {
+                            XmlSerializer deserializer = new XmlSerializer(typeof(List<Password>),
+                                new XmlRootAttribute("password_list"));
+                            passWords = (List<Password>)deserializer.Deserialize(reader);
+                        }
+
+                        string fileMasterPassword = "";
+                        foreach (Password password in passWords)
+                        {
+                            fileMasterPassword = password.masterPassword;
+                            break;
+                        }
+
+                        if (fileMasterPassword != "" && masterPassword == fileMasterPassword)
+                        {
+
+                            string file = setSavedPasswordFileInfo(fileName);
+                           // MessageBox.Show("Password file: " + file + " opened succesfully.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                            tabItemPasswords.IsEnabled = true;
+                            tabItemPasswords.Visibility = Visibility.Visible;
+                            tabControlMain.SelectedIndex = 1;
+                            menuItemOpenFile();
+
+                            saveHistory.Push(passWords.Count());
+                            showPassWords();
+                            showPassWordPieChart();
+                            showCatPieChart();
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("You have entered the wrong master password for this password file. This password file can't be opened.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
+                    }
+                
+               
             }
-            else if (chkMasterPassword.IsChecked == false)
+            //else
+            //{
+            //    MessageBox.Show("To open a password file please enter the corresponding master password.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //    tabControlMain.SelectedIndex = 0;
+            //}
+        }
+
+        private void bNewFile_Click(object sender, RoutedEventArgs e)
+        {
+            Boolean validMasterPassword = checkMasterPassword();
+            if (validMasterPassword == true)
             {
+                passWords = new List<Password>();
+                Password mpPassword = new Password();
+                mpPassword.id = "ump";
+                mpPassword.masterPassword = masterPassword;
+                mpPassword.name = "ump";
+                mpPassword.category = "";
+                mpPassword.dateTime = "";
+                mpPassword.note = "";
+                mpPassword.userName = "";
+                mpPassword.userPassword = "";
+                mpPassword.website = "";
 
-                masterPassword = this.uMasterPassword.Password.ToString();
-            }
+                passWords.Add(mpPassword);
 
-            Match password = Regex.Match(masterPassword, @"
-                                      ^              # Match the start of the string
-                                       (?=.*\p{Lu})  # Positive lookahead assertion, is true when there is an uppercase letter
-                                       (?=.*\P{L})   # Positive lookahead assertion, is true when there is a non-letter
-                                       \S{8,}        # At least 8 non whitespace characters
-                                      $              # Match the end of the string
-                                     ", RegexOptions.IgnorePatternWhitespace);
 
-            if (password.Success)
-            {
+                Boolean saved = saveAsPassword(true);
 
-                MessageBox.Show("Master password saved. You can now save or open a password file.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Information);
-                //tabControlMain.SelectedIndex = 0;
-            }
-            else
-            {
-                lerrMasterPassword.Text = "";
-                lerrMasterPassword.Text = "Invalid master password. The master password should have at least 8 characters, one uppercase letter, and one non-letter.";
+                if (saved == true)
+                {
+                    ucCategory.Items.Clear();
+                    this.bShowAllPasswords.Visibility = Visibility.Hidden;
+                    this.uMasterPassword.Password = "";
+                    this.tFreeSearch.Text = "";
+                    this.lerrSearch.Content = "";
+
+                    //openedPasswordFile = "";
+                    //this.lpasswordFileName.Content = "";
+
+                    resetPassWordForm();
+                    showPassWords();
+                    showPassWordPieChart();
+                    showCatPieChart();
+
+                    tabControlMain.SelectedIndex = 1;
+                    tabItemPasswords.IsEnabled = true;
+                    tabItemPasswords.Visibility = Visibility.Visible;
+                    menuItemOpenFile();
+                }
+
             }
 
         }
@@ -821,7 +763,106 @@ namespace PassDash
         #endregion
 
         #region save methods
-        private void savePasswords(string fileName)
+
+
+        private void savePassword()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            if (passWords.Count > 0)
+            {
+                if (masterPassword != null && masterPassword.Length > 5)
+                {
+                    foreach (Password password in passWords)
+                    {
+                        password.masterPassword = masterPassword;
+                    }
+
+                    if (openedPasswordFile == "")
+                    {
+                        if (saveFileDialog.ShowDialog() == true)
+                        {
+                            string fileName = saveFileDialog.FileName.ToString();
+                            createXMLPasswords(fileName);
+                            string file = setSavedPasswordFileInfo(fileName);
+                            MessageBox.Show("Your password file: " + file + " is saved.", "Saved!", MessageBoxButton.OK, MessageBoxImage.Information);
+                            saveHistory.Push(passWords.Count());
+                            showPassWords();
+                        }
+                    }
+                    else if (openedPasswordFile != "")
+                    {
+                        createXMLPasswords(openedPasswordFile);
+                        string file = setSavedPasswordFileInfo(openedPasswordFile);
+                        MessageBox.Show("Your password file: " + file + " is saved.", "Saved!", MessageBoxButton.OK, MessageBoxImage.Information);
+                        saveHistory.Push(passWords.Count());
+                        showPassWords();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("To save a password file please enter a master password for the file.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    tabControlMain.SelectedIndex = 0;
+                }
+            }
+            else
+            {
+                MessageBox.Show("To save a password file please enter at least 1 password.", "Password", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private Boolean saveAsPassword(Boolean newFile)
+        {
+            Boolean saved = false;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            if (passWords.Count > 0)
+            {
+                if (masterPassword != null && masterPassword.Length > 5)
+                {
+                    foreach (Password password in passWords)
+                    {
+                        password.masterPassword = masterPassword;
+                    }
+
+                    if (saveFileDialog.ShowDialog() == true)
+                    {
+
+                       string newFileText = "";
+                       if (newFile == true)
+                        {
+                            newFileText = " is created.";
+
+                        }
+                       else if (newFile == false)
+                        {
+                            newFileText = " is saved.";
+                        }
+
+                        string fileName = saveFileDialog.FileName.ToString();
+                        createXMLPasswords(fileName);
+                        string file = setSavedPasswordFileInfo(fileName);
+                        MessageBox.Show("Your password file: " + file + newFileText, "Saved!", MessageBoxButton.OK, MessageBoxImage.Information);
+                        saved = true;
+                        saveHistory.Push(passWords.Count());
+                        showPassWords();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("To save a password file please enter a master password for the file.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    tabControlMain.SelectedIndex = 0;
+                }
+            }
+            else
+            {
+                MessageBox.Show("To save a password file please enter at least 1 password.", "Password", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            return saved;
+        }
+
+
+        private void createXMLPasswords(string fileName)
         {
             XmlSerializer serialiser = new XmlSerializer(typeof(PasswordList));
             PasswordList list = new PasswordList();
@@ -859,6 +900,42 @@ namespace PassDash
 
 
         #region general methods
+
+        private Boolean checkMasterPassword()
+        {
+            Boolean validMasterPassword = false;
+            if (chkMasterPassword.IsChecked == true)
+            {
+                masterPassword = this.uTxtMasterPassword.Text.ToString();
+            }
+            else if (chkMasterPassword.IsChecked == false)
+            {
+
+                masterPassword = this.uMasterPassword.Password.ToString();
+            }
+
+            Match password = Regex.Match(masterPassword, @"
+                                      ^              # Match the start of the string
+                                       (?=.*\p{Lu})  # Positive lookahead assertion, is true when there is an uppercase letter
+                                       (?=.*\P{L})   # Positive lookahead assertion, is true when there is a non-letter
+                                       \S{8,}        # At least 8 non whitespace characters
+                                      $              # Match the end of the string
+                                     ", RegexOptions.IgnorePatternWhitespace);
+
+            if (password.Success)
+            {
+                validMasterPassword = true;
+                //MessageBox.Show("Master password saved. You can now save or open a password file.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Information);
+                //tabControlMain.SelectedIndex = 0;
+            }
+            else
+            {
+                lerrMasterPassword.Text = "";
+                lerrMasterPassword.Text = "Invalid master password. The master password should have at least 8 characters, one uppercase letter, and one non-letter.";
+            }
+            return validMasterPassword;
+        }
+
         private void showPassWords()
         {
             listViewPasswords.Items.Clear();
@@ -866,6 +943,11 @@ namespace PassDash
             int i = 1;
             foreach (Password password in passWords)
             {
+                if (password.id == "ump")
+                {
+                    continue;
+                }
+
                 listViewPasswords.Items.Add(new Password { nr = i.ToString(), category = password.category, name = password.name, website = password.website, userName = password.userName, userPassword = password.userPassword, dateTime = password.dateTime, id = password.id });
                 i = i + 1;
 
@@ -959,6 +1041,7 @@ namespace PassDash
 
             foreach (Password password in passWords)
             {
+
                 int count = 1;
                 if (password.category != null && password.category != "")
                 {
@@ -1017,6 +1100,10 @@ namespace PassDash
 
             foreach (Password password in passWords)
             {
+                if (password.id == "ump")
+                {
+                    continue;
+                }
 
                 int score = passwordAdvisor.CheckStrength(password.userPassword);
                 passScores.Add(score);
