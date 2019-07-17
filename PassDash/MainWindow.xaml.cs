@@ -961,7 +961,7 @@ namespace PassDash
                 lastSavePasswordCount = saveHistory.Peek();
             }
 
-            if (lastSavePasswordCount < passWords.Count())
+            if (lastSavePasswordCount != passWords.Count())
             {
                 lpasswordFileName.Foreground = Brushes.Red;
             }

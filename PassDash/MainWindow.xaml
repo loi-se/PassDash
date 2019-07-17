@@ -11,7 +11,7 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-              
+
                 <MenuItem Name="menuItemSave" Header="_Save" Click="save_Click"/>
                 <MenuItem Name="menuItemSaveAs" Header="_Save As" Click="saveAs_Click"/>
 
@@ -49,7 +49,11 @@
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Panel" Property="Background" Value="LightSkyBlue" />
+                                        <Setter TargetName="Panel" Property="Background" >
+                                            <Setter.Value>
+                                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveCaptionColorKey}}"/>
+                                            </Setter.Value>
+                                        </Setter>
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="False">
                                         <Setter TargetName="Panel" Property="Background" Value="White" />
@@ -61,55 +65,61 @@
                 </Style>
             </TabControl.Resources>
 
-           
+
             <TabItem Name ="tabItemMasterPassword" Header="Master password">
                 <Grid ShowGridLines="False">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <DockPanel Grid.Column="0" Grid.Row="0">
-                        <Border CornerRadius="3" BorderBrush="#FF5E645E" BorderThickness="3" Margin="1">
-                            <Grid ShowGridLines="False">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="83*"/>
-                                    <ColumnDefinition Width="100*" />
-                                    <ColumnDefinition Width="165*" />
-                                </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                        <Label Name="lmasterPassWord" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="20" Content="Master password:" />
+                        <DockPanel Grid.Column="0" Grid.Row="0" Width="750" Height="400" VerticalAlignment="Center" HorizontalAlignment="Center" Background="#FFE8E8E8">
+                            <Border CornerRadius="3" BorderThickness="3" Margin="1">
+                                <Border.Background>
+                                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveCaptionColorKey}}"/>
+                                </Border.Background>
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.AppWorkspaceColorKey}}"/>
+                                </Border.BorderBrush>
+                                <Grid ShowGridLines="False">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="83*"/>
+                                        <ColumnDefinition Width="100*" />
+                                        <ColumnDefinition Width="165*" />
+                                    </Grid.ColumnDefinitions>
 
-                                <Label Name="lmasterPassWord" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" Content="Master password:" />
-                                <TextBox Grid.Column="0" Grid.Row="1" Text="Master password:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0" Width="98" Background="{x:Null}" Foreground="Black"  IsReadOnly="True"/>
+                                    <TextBox Grid.Column="0" Grid.Row="1" Text="Master password:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0" Width="98" Background="{x:Null}" Foreground="Black"  IsReadOnly="True"/>
 
-                                <PasswordBox x:Name="uMasterPassword" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" BorderThickness="1" />
-                                <TextBox x:Name="uTxtMasterPassword" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" BorderThickness="1" Visibility="Hidden"/>
-                                <TextBlock Grid.Column="2" Grid.Row="1" Name="lerrMasterPassword" TextWrapping="WrapWithOverflow" Margin="10,0,0,0" Foreground="#FFFF031A"/>
-                                <CheckBox Grid.Column="1" Grid.Row="2" Name="chkMasterPassword" Content="Show combination" Click="chkMasterPassword_Click"/>
+                                    <PasswordBox x:Name="uMasterPassword" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" BorderThickness="1" />
+                                    <TextBox x:Name="uTxtMasterPassword" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" BorderThickness="1" Visibility="Hidden"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="1" Name="lerrMasterPassword" TextWrapping="WrapWithOverflow" Margin="10,0,0,0" Foreground="#FFFF031A"/>
+                                    <CheckBox Grid.Column="1" Grid.Row="2" Name="chkMasterPassword" Content="Show combination" Click="chkMasterPassword_Click"/>
 
-                                <Button Grid.Column="1" Grid.Row="2" Name="bOpenFile" Width="90" Height="30" Click="bOpenFile_Click" ToolTip="Open file" Content="Open file" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,6" Grid.RowSpan="3">
-                                </Button>
-                                <Button Grid.Column="1" Grid.Row="4" Name="bCreateNewFile" Width="90" Height="30" Click="bNewFile_Click" ToolTip="Create new file" Content="Create new file" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,6" Grid.RowSpan="3">
-                                </Button>
-                            </Grid>
-                        </Border>
-                    </DockPanel>
+                                    <Button Grid.Column="1" Grid.Row="2" Name="bOpenFile" Width="90" Height="30" Click="bOpenFile_Click" ToolTip="Open file" Content="Open file" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,6" Grid.RowSpan="3">
+                                    </Button>
+                                    <Button Grid.Column="1" Grid.Row="4" Name="bCreateNewFile" Width="90" Height="30" Click="bNewFile_Click" ToolTip="Create new file" Content="Create new file" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,6" Grid.RowSpan="3">
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </DockPanel>
+                    </StackPanel>
                     <DockPanel Grid.Column="1" Grid.Row="0" LastChildFill="True">
                     </DockPanel>
                     <DockPanel Grid.Column="2" Grid.Row="0">
