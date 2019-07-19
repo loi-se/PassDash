@@ -351,10 +351,13 @@ namespace PassDash
         private void bOpenFile_Click(object sender, RoutedEventArgs e)
         {
             Boolean validMasterPassword = checkMasterPassword();
-            if (validMasterPassword == true)
+            if (uMasterPassword.Password != "")
             {
-                string fileName = "";
-                OpenFileDialog openFileDialog = new OpenFileDialog();
+                if (validMasterPassword == true)
+                {
+
+                    string fileName = "";
+                    OpenFileDialog openFileDialog = new OpenFileDialog();
 
                     if (openFileDialog.ShowDialog() == true)
                     {
@@ -381,7 +384,7 @@ namespace PassDash
                         {
 
                             string file = setSavedPasswordFileInfo(fileName);
-                           // MessageBox.Show("Password file: " + file + " opened succesfully.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            // MessageBox.Show("Password file: " + file + " opened succesfully.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
 
                             tabItemPasswords.IsEnabled = true;
                             tabItemPasswords.Visibility = Visibility.Visible;
@@ -399,8 +402,14 @@ namespace PassDash
                             MessageBox.Show("You have entered the wrong master password for this password file. This password file can't be opened.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
                         }
                     }
-                
-               
+
+
+                }
+            }
+            else
+            {
+                lerrMasterPassword.Text = "";
+                lerrMasterPassword.Text = "To open a password file please enter a master password.";
             }
             //else
             //{
@@ -412,47 +421,55 @@ namespace PassDash
         private void bNewFile_Click(object sender, RoutedEventArgs e)
         {
             Boolean validMasterPassword = checkMasterPassword();
-            if (validMasterPassword == true)
+            if (uMasterPassword.Password != "")
             {
-                passWords = new List<Password>();
-                Password mpPassword = new Password();
-                mpPassword.id = "ump";
-                mpPassword.masterPassword = masterPassword;
-                mpPassword.name = "ump";
-                mpPassword.category = "";
-                mpPassword.dateTime = "";
-                mpPassword.note = "";
-                mpPassword.userName = "";
-                mpPassword.userPassword = "";
-                mpPassword.website = "";
-
-                passWords.Add(mpPassword);
-
-
-                Boolean saved = saveAsPassword(true);
-
-                if (saved == true)
+                if (validMasterPassword == true)
                 {
-                    ucCategory.Items.Clear();
-                    this.bShowAllPasswords.Visibility = Visibility.Hidden;
-                    this.uMasterPassword.Password = "";
-                    this.tFreeSearch.Text = "";
-                    this.lerrSearch.Content = "";
+                    passWords = new List<Password>();
+                    Password mpPassword = new Password();
+                    mpPassword.id = "ump";
+                    mpPassword.masterPassword = masterPassword;
+                    mpPassword.name = "ump";
+                    mpPassword.category = "";
+                    mpPassword.dateTime = "";
+                    mpPassword.note = "";
+                    mpPassword.userName = "";
+                    mpPassword.userPassword = "";
+                    mpPassword.website = "";
 
-                    //openedPasswordFile = "";
-                    //this.lpasswordFileName.Content = "";
+                    passWords.Add(mpPassword);
 
-                    resetPassWordForm();
-                    showPassWords();
-                    showPassWordPieChart();
-                    showCatPieChart();
 
-                    tabControlMain.SelectedIndex = 1;
-                    tabItemPasswords.IsEnabled = true;
-                    tabItemPasswords.Visibility = Visibility.Visible;
-                    menuItemOpenFile();
+                    Boolean saved = saveAsPassword(true);
+
+                    if (saved == true)
+                    {
+                        ucCategory.Items.Clear();
+                        this.bShowAllPasswords.Visibility = Visibility.Hidden;
+                        this.uMasterPassword.Password = "";
+                        this.tFreeSearch.Text = "";
+                        this.lerrSearch.Content = "";
+
+                        //openedPasswordFile = "";
+                        //this.lpasswordFileName.Content = "";
+
+                        resetPassWordForm();
+                        showPassWords();
+                        showPassWordPieChart();
+                        showCatPieChart();
+
+                        tabControlMain.SelectedIndex = 1;
+                        tabItemPasswords.IsEnabled = true;
+                        tabItemPasswords.Visibility = Visibility.Visible;
+                        menuItemOpenFile();
+                    }
+
                 }
-
+            }
+            else
+            {
+                lerrMasterPassword.Text = "";
+                lerrMasterPassword.Text = "To create a new password file please enter a master password.";
             }
 
         }
