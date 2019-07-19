@@ -127,7 +127,6 @@ namespace PassDash
             {
                 fileName = openFileDialog.FileName.ToString();
 
-
                 xlApp = new Microsoft.Office.Interop.Excel.Application();
                 xlWorkBook = xlApp.Workbooks.Open(fileName, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
                 xlWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
@@ -320,6 +319,11 @@ namespace PassDash
 
                 foreach (Password password in passWords)
                 {
+                    if (password.id == "ump")
+                    {
+                        continue;
+                    }
+
                     i2++;
                     ws.Cells[i2, 1] = password.nr;
                     ws.Cells[i2, 2] = password.name;
@@ -391,7 +395,7 @@ namespace PassDash
                             tabControlMain.SelectedIndex = 1;
                             menuItemOpenFile();
 
-                            saveHistory.Push(passWords.Count());
+                            saveHistory.Push(passWords.Count() - 1);
                             showPassWords();
                             showPassWordPieChart();
                             showCatPieChart();
@@ -629,6 +633,11 @@ namespace PassDash
 
                 foreach (Password password in passWords)
                 {
+                    if (password.id == "ump")
+                    {
+                        continue;
+                    }
+
                     Boolean foundPassword = false;
 
                     if (password.name != null && password.name.ToLower().Contains(searchQuery.ToLower()))
@@ -761,7 +770,7 @@ namespace PassDash
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
-            if (passWords.Count > 0)
+            if (passWords.Count() > 0)
             {
                 if (masterPassword != null && masterPassword.Length > 5)
                 {
@@ -778,7 +787,7 @@ namespace PassDash
                             createXMLPasswords(fileName);
                             string file = setSavedPasswordFileInfo(fileName);
                             MessageBox.Show("Your password file: " + file + " is saved.", "Saved!", MessageBoxButton.OK, MessageBoxImage.Information);
-                            saveHistory.Push(passWords.Count());
+                            saveHistory.Push(passWords.Count() - 1);
                             showPassWords();
                         }
                     }
@@ -787,7 +796,7 @@ namespace PassDash
                         createXMLPasswords(openedPasswordFile);
                         string file = setSavedPasswordFileInfo(openedPasswordFile);
                         MessageBox.Show("Your password file: " + file + " is saved.", "Saved!", MessageBoxButton.OK, MessageBoxImage.Information);
-                        saveHistory.Push(passWords.Count());
+                        saveHistory.Push(passWords.Count() - 1);
                         showPassWords();
                     }
                 }
@@ -808,7 +817,7 @@ namespace PassDash
             Boolean saved = false;
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
-            if (passWords.Count > 0)
+            if (passWords.Count() > 0)
             {
                 if (masterPassword != null && masterPassword.Length > 5)
                 {
@@ -836,7 +845,7 @@ namespace PassDash
                         string file = setSavedPasswordFileInfo(fileName);
                         MessageBox.Show("Your password file: " + file + newFileText, "Saved!", MessageBoxButton.OK, MessageBoxImage.Information);
                         saved = true;
-                        saveHistory.Push(passWords.Count());
+                        saveHistory.Push(passWords.Count() - 1);
                         showPassWords();
                     }
                 }
@@ -978,11 +987,11 @@ namespace PassDash
                 lastSavePasswordCount = saveHistory.Peek();
             }
 
-            if (lastSavePasswordCount != passWords.Count())
+            if (lastSavePasswordCount != passWords.Count() - 1)
             {
                 lpasswordFileName.Foreground = Brushes.Red;
             }
-            else if (lastSavePasswordCount == passWords.Count())
+            else if (lastSavePasswordCount == passWords.Count() - 1)
             {
                 lpasswordFileName.Foreground = Brushes.Green;
             }
@@ -1035,13 +1044,13 @@ namespace PassDash
                 i = i + 1;
             }
 
-            if (foundPasswords.Count < passWords.Count)
+            if (foundPasswords.Count < passWords.Count() - 1)
             {
                 this.bShowAllPasswords.Visibility = Visibility.Visible;
             }
 
             lerrSearch.Content = "";
-            lpasswordListView.Content = "My Passwords" + " (" + foundPasswords.Count + "/" + (passWords.Count - 1).ToString() + ")" + ":";
+            lpasswordListView.Content = "My Passwords" + " (" + foundPasswords.Count + "/" + (passWords.Count() - 1).ToString() + ")" + ":";
         }
 
         #endregion
@@ -1054,6 +1063,10 @@ namespace PassDash
 
             foreach (Password password in passWords)
             {
+                if (password.id == "ump")
+                { 
+                    continue;
+                }
 
                 int count = 1;
                 if (password.category != null && password.category != "")
@@ -1229,7 +1242,12 @@ namespace PassDash
 
             foreach (Password password in passWords)
             {
-               if (password.category == category)
+                if (password.id == "ump")
+                {
+                    continue;
+                }
+
+                if (password.category == category)
                 {
                     foundPasswords.Add(password);
                 }
