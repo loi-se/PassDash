@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PassDash"
         mc:Ignorable="d"
-        Title="PassDash Help" WindowState="Maximized" HorizontalAlignment="Center">
+        Title="PassDash Help" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1200" Height="800">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -39,7 +39,6 @@
                     </ScrollViewer>
                 </Border>
             </DockPanel>
-
         </Grid>
     </DockPanel>
 </Window>

@@ -54,6 +54,21 @@ namespace PassDash
             treeViewItemFunc.Header = "Main functionalities";
             treeViewItemFunc.FontSize = 14;
 
+            TreeViewItem treeViewItemCreate = new TreeViewItem();
+            treeViewItemCreate.Name = "CreatePasswordFile";
+            treeViewItemCreate.Header = "Create a new password file";
+            treeViewItemCreate.FontSize = 14;
+            treeViewItemCreate.IsExpanded = true;
+            treeViewItemCreate.MouseLeftButtonUp += treeViewItem_MouseLeftButtonUp;
+
+            TreeViewItem treeViewItemOpen = new TreeViewItem();
+            treeViewItemOpen.Name = "OpenPasswordFile";
+            treeViewItemOpen.Header = "Open a password file";
+            treeViewItemOpen.FontSize = 14;
+            treeViewItemOpen.IsExpanded = true;
+            treeViewItemOpen.MouseLeftButtonUp += treeViewItem_MouseLeftButtonUp;
+
+
             TreeViewItem treeViewItemImport = new TreeViewItem();
             treeViewItemImport.Name = "ImportExcell";
             treeViewItemImport.Header = "Import passwords from an excell file";
@@ -61,7 +76,10 @@ namespace PassDash
             treeViewItemImport.IsExpanded = true;
             treeViewItemImport.MouseLeftButtonUp += treeViewItem_MouseLeftButtonUp;
 
+            treeViewItemFunc.Items.Add(treeViewItemCreate);
+            treeViewItemFunc.Items.Add(treeViewItemOpen);
             treeViewItemFunc.Items.Add(treeViewItemImport);
+            
 
             this.treeViewHelp.Items.Add(treeViewItemAbout);
             this.treeViewHelp.Items.Add(treeViewItemFunc);
@@ -70,10 +88,21 @@ namespace PassDash
 
         public void treeViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            TreeViewItem treeViewItem  = treeViewHelp.SelectedItem as TreeViewItem;
+
+
+            TreeViewItem treeViewItem = treeViewHelp.SelectedItem as TreeViewItem;
             txtBlockHelp1.Inlines.Clear();
             txtBlockHelp2.Inlines.Clear();
-            if (treeViewItem.Name == "ImportExcell")
+
+            if (treeViewItem.Name == "CreatePasswordFile")
+            {
+                CreatePasswordFile();
+            }
+            else if (treeViewItem.Name == "OpenPasswordFile")
+            {
+                OpenPasswordFile();
+            }
+            else if (treeViewItem.Name == "ImportExcell")
             {
 
                 importFunction();
@@ -82,6 +111,7 @@ namespace PassDash
             {
                 about();
             }
+
         }
 
 
@@ -105,6 +135,46 @@ namespace PassDash
                                        "After filling in the right master password the user has access to all password data entered and saved previously in this password file. " + Environment.NewLine +
                                        "In this way a user can have multiple password files with each it's unique master password coupled to it. " + Environment.NewLine +
                                        "This offers our users a flexible, clear, and safe way to store passwords.");
+
+        }
+
+
+        private void CreatePasswordFile()
+        {
+
+
+            ImageSource imageSource = new BitmapImage(new Uri(@"Images/CreateNewHelp1.jpg", UriKind.Relative));
+            imgHelp.Source = imageSource;
+            imgHelp.Width = 1100;
+            imgHelp.Height = 700;
+
+
+            txtBlockHelp1.FontSize = 14; // 24 points
+            txtBlockHelp1.Inlines.Add(new Bold(new Run("Create a new password file." + Environment.NewLine + Environment.NewLine)));
+            txtBlockHelp1.Inlines.Add("To create a new password file do the following:" + Environment.NewLine);
+            txtBlockHelp1.Inlines.Add("- Enter a master password for the file at the master password tabpage." + Environment.NewLine);
+            txtBlockHelp1.Inlines.Add("- Press the button: create new file." + Environment.NewLine);
+            txtBlockHelp1.Inlines.Add("- Enter the filename and press save." + Environment.NewLine);
+            txtBlockHelp1.Inlines.Add("- The password file is created and the dashboard tabpage opens." + Environment.NewLine);
+            txtBlockHelp1.Inlines.Add(" Here you can add new passwords to your new password file, edit and delete passwords, and get good insight in all your password data through graphs." + Environment.NewLine);
+
+        }
+
+        private void OpenPasswordFile()
+        {
+            ImageSource imageSource = new BitmapImage(new Uri(@"Images/CreateNewHelp1.jpg", UriKind.Relative));
+            imgHelp.Source = imageSource;
+            imgHelp.Width = 1100;
+            imgHelp.Height = 700;
+
+            txtBlockHelp1.FontSize = 14; // 24 points
+            txtBlockHelp1.Inlines.Add(new Bold(new Run("Open a password file." + Environment.NewLine + Environment.NewLine)));
+            txtBlockHelp1.Inlines.Add("To open a password file do the following:" + Environment.NewLine);
+            txtBlockHelp1.Inlines.Add("- Enter the master password of the file at the master password tabpage." + Environment.NewLine);
+            txtBlockHelp1.Inlines.Add("- Press the button: open file." + Environment.NewLine);
+            txtBlockHelp1.Inlines.Add("- Select the file and press open." + Environment.NewLine);
+            txtBlockHelp1.Inlines.Add("- The password file is opened and the dashboard tabpage opens." + Environment.NewLine);
+            txtBlockHelp1.Inlines.Add(" Here you can add new passwords to your password file, edit and delete passwords, and get good insight in all your password data through graphs." + Environment.NewLine);
 
         }
 
