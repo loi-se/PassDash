@@ -394,7 +394,7 @@ namespace PassDash
                             tabItemPasswords.Visibility = Visibility.Visible;
                             tabControlMain.SelectedIndex = 1;
                             menuItemOpenFile();
-
+                            ucCategory.Items.Clear();
                             saveHistory.Push(passWords.Count() - 1);
                             showPassWords();
                             showPassWordPieChart();
