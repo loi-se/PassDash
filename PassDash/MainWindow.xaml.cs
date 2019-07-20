@@ -363,51 +363,58 @@ namespace PassDash
                     string fileName = "";
                     OpenFileDialog openFileDialog = new OpenFileDialog();
 
-                    if (openFileDialog.ShowDialog() == true)
+                    try
                     {
-                        fileName = openFileDialog.FileName.ToString();
-                        openedPasswordFile = fileName;
-                        DataSet ds = DecryptAndDeserialize(fileName);
-                        string xml = ds.GetXml();
 
-                        using (TextReader reader = new StringReader(xml))
+
+                        if (openFileDialog.ShowDialog() == true)
                         {
-                            XmlSerializer deserializer = new XmlSerializer(typeof(List<Password>),
-                                new XmlRootAttribute("password_list"));
-                            passWords = (List<Password>)deserializer.Deserialize(reader);
-                        }
+                            fileName = openFileDialog.FileName.ToString();
+                            openedPasswordFile = fileName;
+                            DataSet ds = DecryptAndDeserialize(fileName);
+                            string xml = ds.GetXml();
 
-                        string fileMasterPassword = "";
-                        foreach (Password password in passWords)
-                        {
-                            fileMasterPassword = password.masterPassword;
-                            break;
-                        }
+                            using (TextReader reader = new StringReader(xml))
+                            {
+                                XmlSerializer deserializer = new XmlSerializer(typeof(List<Password>),
+                                    new XmlRootAttribute("password_list"));
+                                passWords = (List<Password>)deserializer.Deserialize(reader);
+                            }
 
-                        if (fileMasterPassword != "" && masterPassword == fileMasterPassword)
-                        {
+                            string fileMasterPassword = "";
+                            foreach (Password password in passWords)
+                            {
+                                fileMasterPassword = password.masterPassword;
+                                break;
+                            }
 
-                            string file = setSavedPasswordFileInfo(fileName);
-                            // MessageBox.Show("Password file: " + file + " opened succesfully.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            if (fileMasterPassword != "" && masterPassword == fileMasterPassword)
+                            {
 
-                            tabItemPasswords.IsEnabled = true;
-                            tabItemPasswords.Visibility = Visibility.Visible;
-                            tabControlMain.SelectedIndex = 1;
-                            menuItemOpenFile();
-                            ucCategory.Items.Clear();
-                            saveHistory.Push(passWords.Count() - 1);
-                            showPassWords();
-                            showPassWordPieChart();
-                            showCatPieChart();
+                                string file = setSavedPasswordFileInfo(fileName);
+                                // MessageBox.Show("Password file: " + file + " opened succesfully.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-                        }
-                        else
-                        {
-                            MessageBox.Show("You have entered the wrong master password for this password file. This password file can't be opened.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                tabItemPasswords.IsEnabled = true;
+                                tabItemPasswords.Visibility = Visibility.Visible;
+                                tabControlMain.SelectedIndex = 1;
+                                menuItemOpenFile();
+                                ucCategory.Items.Clear();
+                                saveHistory.Push(passWords.Count() - 1);
+                                showPassWords();
+                                showPassWordPieChart();
+                                showCatPieChart();
+
+                            }
+                            else
+                            {
+                                MessageBox.Show("You have entered the wrong master password for this password file. This password file can't be opened.", "Master password!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            }
                         }
                     }
-
-
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("This is not a valid PassDash XML password file");
+                    }
                 }
             }
             else
