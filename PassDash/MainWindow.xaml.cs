@@ -45,7 +45,7 @@ namespace PassDash
         private bool categorySelected = false;
 
         public Stack<int> saveHistory = new Stack<int>();
-
+        private Dictionary<string, Brush> colorsPasswordStrengthChart = new Dictionary<string, Brush>();
         public MainWindow()
         {
             InitializeComponent();
@@ -699,14 +699,15 @@ namespace PassDash
         private void listView_Click(object sender, RoutedEventArgs e)
         {
 
-          
-
             if ((Password)listViewPasswords.SelectedItem != null)
             {
+                PasswordAdvisor passwordAdvisor = new PasswordAdvisor();
+
                 this.bAddPassword.Content = "Edit";
                 this.lpassWordForm.Content = "Edit/view your password:";
                 this.bDelPassword.Visibility = Visibility.Visible;
                 this.bOpenWebsite.Visibility = Visibility.Visible;
+                this.passwordStrength.Visibility = Visibility.Visible;
                 clearPasswordForm();
 
                 clearErrors();
@@ -743,6 +744,17 @@ namespace PassDash
                 if (selPassword.userPassword != null)
                 {
                     this.uPassword.Text = selPassword.userPassword.ToString();
+                    int passWordStrengthScore = passwordAdvisor.CheckStrength(selPassword.userPassword.ToString());
+
+                    PasswordScore passScore = (PasswordScore)passWordStrengthScore;
+                    string passWordStrengthText = getPassWordScoreText(passWordStrengthScore);
+                    this.passwordStrength.Text = passWordStrengthText;
+                    //this.passwordStrength.Foreground = Brushes.Green;
+                    //string passWordStrengthHexCode = getPassWordStrengtColorHexCode(passWordStrengthText);
+                    if (colorsPasswordStrengthChart.ContainsKey(passWordStrengthText))
+                    {
+                        this.passwordStrength.Background = colorsPasswordStrengthChart[passWordStrengthText];
+                    }
                 }
                 if (selPassword.note != null)
                 {
@@ -1010,6 +1022,7 @@ namespace PassDash
             clearPasswordForm();
             this.bDelPassword.Visibility = Visibility.Hidden;
             this.bOpenWebsite.Visibility = Visibility.Hidden;
+            this.passwordStrength.Visibility = Visibility.Hidden;
             this.bAddPassword.Content = "Add";
             this.lpassWordForm.Content = "Create a new password:";
         }
@@ -1148,7 +1161,7 @@ namespace PassDash
                 {
                     Blank = Blank + 1;
                 }
-                else if (score == (int)PasswordScore.VeryWeak)
+                else if (score == (int)PasswordScore.Veryweak)
                 {
                     VeryWeak = VeryWeak + 1;
                 }
@@ -1178,42 +1191,58 @@ namespace PassDash
                 {
                     Title = "Blank",
                     Values = new ChartValues<ObservableValue> { new ObservableValue(Blank) },
-                    DataLabels = true
+                    DataLabels = true,
+                   Fill = Brushes.LightBlue
                 },
                 new PieSeries
                 {
-                    Title = "Very weak",
+                    Title = "Very Weak",
                     Values = new ChartValues<ObservableValue> { new ObservableValue(VeryWeak) },
-                    DataLabels = true
+                    DataLabels = true,
+                   Fill = Brushes.Red
                 },
                 new PieSeries
                 {
                     Title = "Weak",
                     Values = new ChartValues<ObservableValue> { new ObservableValue(Weak) },
-                    DataLabels = true
+                    DataLabels = true,
+                     Fill = Brushes.Orange
                 },
                   new PieSeries
                 {
                     Title = "Medium",
                     Values = new ChartValues<ObservableValue> { new ObservableValue(Medium) },
-                    DataLabels = true
+                    DataLabels = true,
+                    Fill = Brushes.LimeGreen
+
                 },
                 new PieSeries
                 {
                     Title = "Strong",
                     Values = new ChartValues<ObservableValue> { new ObservableValue(Strong) },
-                    DataLabels = true
+                    DataLabels = true,
+                      Fill = Brushes.DarkGreen
                 },
                   new PieSeries
                 {
                     Title = "Very Strong",
                     Values = new ChartValues<ObservableValue> { new ObservableValue(VeryStrong) },
-                    DataLabels = true
-                }
+                    DataLabels = true,
+                    Fill = Brushes.MediumPurple
+            }
             };
 
                 ChartPass.Series = SeriesCollectionPass;
                 ChartPass.DataContext = this;
+
+
+                foreach (PieSeries PieSerie in SeriesCollectionPass)
+                {
+                    if (!colorsPasswordStrengthChart.ContainsKey(PieSerie.Title))
+                    {
+                        colorsPasswordStrengthChart.Add(PieSerie.Title, PieSerie.Fill);
+                    }
+                }
             }
             else
             {
@@ -1222,9 +1251,7 @@ namespace PassDash
             }
 
         }
-
         #endregion
-
 
         #region chart event
 
@@ -1269,11 +1296,43 @@ namespace PassDash
         public enum PasswordScore
         {
             Blank = 0,
-            VeryWeak = 1,
+            Veryweak = 1,
             Weak = 2,
             Medium = 3,
             Strong = 4,
             VeryStrong = 5
+        }
+
+        private string getPassWordScoreText(int score)
+        {
+            string passWordScoreText = "";
+
+            if (score == 0)
+            {
+                passWordScoreText = "Blank";
+            }
+            else if (score == 1)
+            {
+                passWordScoreText = "Very Weak";
+            }
+            else if (score == 2)
+            {
+                passWordScoreText = "Weak";
+            }
+            else if (score == 3)
+            {
+                passWordScoreText = "Medium";
+            }
+            else if (score == 4)
+            {
+                passWordScoreText = "Strong";
+            }
+            else if (score == 5)
+            {
+                passWordScoreText = "Very Strong";
+            }
+            return passWordScoreText;
+
         }
 
         #endregion
