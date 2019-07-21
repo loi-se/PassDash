@@ -1254,6 +1254,12 @@ namespace PassDash
                 ChartPass.Series = SeriesCollectionPass;
                 ChartPass.DataContext = this;
             }
+            else
+            {
+                ChartPass.DataTooltip = null;
+                ChartPass.Series = null;
+                ChartPass.DataContext = this;
+            }
         }
         #endregion
 
