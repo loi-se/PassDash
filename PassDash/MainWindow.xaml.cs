@@ -752,8 +752,7 @@ namespace PassDash
                     PasswordScore passScore = (PasswordScore)passWordStrengthScore;
                     string passWordStrengthText = getPassWordScoreText(passWordStrengthScore);
                     this.passwordStrength.Text = passWordStrengthText;
-                    //this.passwordStrength.Foreground = Brushes.Green;
-                    //string passWordStrengthHexCode = getPassWordStrengtColorHexCode(passWordStrengthText);
+
                     if (colorsPasswordStrengthChart.ContainsKey(passWordStrengthText))
                     {
                         this.passwordStrength.Background = colorsPasswordStrengthChart[passWordStrengthText];
@@ -1145,6 +1144,7 @@ namespace PassDash
 
             ChartCat.DataTooltip = null;
             ChartCat.Series = SeriesCollectionCat;
+            //ChartCat.Content = "Categories:";
             ChartCat.DataContext = this;
 
 
