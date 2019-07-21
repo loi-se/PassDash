@@ -42,7 +42,6 @@ namespace PassDash
         public string openedPasswordFile = "";
 
         private Password selPassword = null;
-        private bool categorySelected = false;
 
         public Stack<int> saveHistory = new Stack<int>();
         private Dictionary<string, Brush> colorsPasswordStrengthChart = new Dictionary<string, Brush>();
@@ -355,7 +354,9 @@ namespace PassDash
         private void bOpenFile_Click(object sender, RoutedEventArgs e)
         {
             Boolean validMasterPassword = checkMasterPassword();
-            if (uMasterPassword.Password != "")
+            string enteredMasterPassword = getEnteredMasterPassword();
+
+            if (enteredMasterPassword != "")
             {
                 if (validMasterPassword == true)
                 {
@@ -432,7 +433,9 @@ namespace PassDash
         private void bNewFile_Click(object sender, RoutedEventArgs e)
         {
             Boolean validMasterPassword = checkMasterPassword();
-            if (uMasterPassword.Password != "")
+            string enteredMasterPassword = getEnteredMasterPassword();
+
+            if (enteredMasterPassword != "")
             {
                 if (validMasterPassword == true)
                 {
@@ -977,6 +980,21 @@ namespace PassDash
             return validMasterPassword;
         }
 
+        private string getEnteredMasterPassword()
+        {
+            string enteredMasterPassword = "";
+
+            if (chkMasterPassword.IsChecked == false)
+            {
+                enteredMasterPassword = uMasterPassword.Password.ToString();
+            }
+            else if (chkMasterPassword.IsChecked == true)
+            {
+                enteredMasterPassword = this.uTxtMasterPassword.Text.ToString();
+            }
+            return enteredMasterPassword;
+        }
+
         private void showPassWords()
         {
             listViewPasswords.Items.Clear();
@@ -1135,14 +1153,16 @@ namespace PassDash
         private void showPassWordPieChart()
         {
             PasswordAdvisor passwordAdvisor = new PasswordAdvisor();
-            List<int> passScores = new List<int>();
 
-            int Blank = 0;
-            int VeryWeak = 0;
-            int Weak = 0;
-            int Medium = 0;
-            int Strong = 0;
-            int VeryStrong = 0;
+            Dictionary<string, int> dictPassScores = new Dictionary<string, int>();
+
+            List<int> passScores = new List<int>();
+            dictPassScores.Add("Blank", 0);
+            dictPassScores.Add("Very Weak", 0);
+            dictPassScores.Add("Weak", 0);
+            dictPassScores.Add("Medium", 0);
+            dictPassScores.Add("Strong", 0);
+            dictPassScores.Add("Very Strong", 0);
 
             foreach (Password password in passWords)
             {
@@ -1153,87 +1173,73 @@ namespace PassDash
 
                 int score = passwordAdvisor.CheckStrength(password.userPassword);
                 passScores.Add(score);
-            }
 
-            foreach (int score in passScores)
-            {
-                if (score == (int)PasswordScore.Blank)
+                int count = 1;
+                string passWordStrength = getPassWordScoreText(score);
+
+                if (dictPassScores.ContainsKey(passWordStrength))
                 {
-                    Blank = Blank + 1;
+                    count = dictPassScores[passWordStrength];
+                    count = count + 1;
+                    dictPassScores[passWordStrength] = count;
                 }
-                else if (score == (int)PasswordScore.Veryweak)
+                else
                 {
-                    VeryWeak = VeryWeak + 1;
-                }
-                else if (score == (int)PasswordScore.Weak)
-                {
-                    Weak = Weak + 1;
-                }
-                else if (score == (int)PasswordScore.Medium)
-                {
-                    Medium = Medium + 1;
-                }
-                else if (score == (int)PasswordScore.Strong)
-                {
-                    Strong = Strong + 1;
-                }
-                else if (score == (int)PasswordScore.VeryStrong)
-                {
-                    VeryStrong = VeryStrong + 1;
+                    dictPassScores.Add(passWordStrength, count);
                 }
             }
 
-            if (passScores.Count > 0)
+            SeriesCollectionPass = new SeriesCollection();
+            if (passWords.Count() - 1 > 0)
             {
-                SeriesCollectionPass = new SeriesCollection
-            {
-                new PieSeries
+                foreach (KeyValuePair<string, int> entry in dictPassScores)
                 {
-                    Title = "Blank",
-                    Values = new ChartValues<ObservableValue> { new ObservableValue(Blank) },
-                    DataLabels = true,
-                   Fill = Brushes.LightBlue
-                },
-                new PieSeries
-                {
-                    Title = "Very Weak",
-                    Values = new ChartValues<ObservableValue> { new ObservableValue(VeryWeak) },
-                    DataLabels = true,
-                   Fill = Brushes.Red
-                },
-                new PieSeries
-                {
-                    Title = "Weak",
-                    Values = new ChartValues<ObservableValue> { new ObservableValue(Weak) },
-                    DataLabels = true,
-                     Fill = Brushes.Orange
-                },
-                  new PieSeries
-                {
-                    Title = "Medium",
-                    Values = new ChartValues<ObservableValue> { new ObservableValue(Medium) },
-                    DataLabels = true,
-                    Fill = Brushes.LimeGreen
+                    PieSeries pieSeries = new PieSeries();
+                    if (entry.Key.ToString() == "Blank")
+                    {
+                        pieSeries.Fill = Brushes.LightBlue;
+                    }
+                    else if (entry.Key.ToString() == "Very Weak")
+                    {
+                        pieSeries.Fill = Brushes.Red;
+                    }
+                    else if (entry.Key.ToString() == "Weak")
+                    {
+                        pieSeries.Fill = Brushes.Orange;
+                    }
+                    else if (entry.Key.ToString() == "Medium")
+                    {
+                        pieSeries.Fill = Brushes.YellowGreen;
+                    }
+                    else if (entry.Key.ToString() == "Strong")
+                    {
+                        pieSeries.Fill = Brushes.LimeGreen;
+                    }
+                    else if (entry.Key.ToString() == "Very Strong")
+                    {
+                        pieSeries.Fill = Brushes.DarkGreen;
+                    }
 
-                },
-                new PieSeries
-                {
-                    Title = "Strong",
-                    Values = new ChartValues<ObservableValue> { new ObservableValue(Strong) },
-                    DataLabels = true,
-                      Fill = Brushes.DarkGreen
-                },
-                  new PieSeries
-                {
-                    Title = "Very Strong",
-                    Values = new ChartValues<ObservableValue> { new ObservableValue(VeryStrong) },
-                    DataLabels = true,
-                    Fill = Brushes.MediumPurple
-            }
-            };
+                    pieSeries.Title = entry.Key.ToString();
+                    pieSeries.ToolTip = null;
+                    pieSeries.FontSize = 11;
+                    pieSeries.Foreground = new SolidColorBrush(Colors.Black);
+                    pieSeries.Values = new ChartValues<ObservableValue> { new ObservableValue(entry.Value) };
+                    if (entry.Value > 0)
+                    {
+                        pieSeries.LabelPoint = chartPoint =>
+                        string.Format(entry.Key.ToString() + "(" + entry.Value.ToString() + ")");
+                    }
+                    else
+                    {
+                        pieSeries.LabelPoint = chartPoint =>
+                        string.Format("");
+                    }
 
-                ChartPass.Series = SeriesCollectionPass;
-                ChartPass.DataContext = this;
+                    pieSeries.LabelPosition = PieLabelPosition.OutsideSlice;
+                    pieSeries.DataLabels = true;
+                    SeriesCollectionPass.Add(pieSeries);
+                }
 
 
                 foreach (PieSeries PieSerie in SeriesCollectionPass)
@@ -1243,21 +1249,18 @@ namespace PassDash
                         colorsPasswordStrengthChart.Add(PieSerie.Title, PieSerie.Fill);
                     }
                 }
-            }
-            else
-            {
-                ChartPass.Series = null;
+
+                ChartPass.DataTooltip = null;
+                ChartPass.Series = SeriesCollectionPass;
                 ChartPass.DataContext = this;
             }
-
         }
         #endregion
 
         #region chart event
 
-        private void ChartOnDataClick(object sender, ChartPoint p)
+        private void ChartCatOnDataClick(object sender, ChartPoint p)
         {
-
             this.tFreeSearch.Text = "";
             this.lerrSearch.Content = "";
             PieSeries pieSeries = new PieSeries();
@@ -1290,9 +1293,49 @@ namespace PassDash
             showFoundPasswords(foundPasswords);
         }
 
+
+        private void ChartPassStrengthOnDataClick(object sender, ChartPoint p)
+        {
+
+            PasswordAdvisor passWordAdvisor = new PasswordAdvisor();
+            this.tFreeSearch.Text = "";
+            this.lerrSearch.Content = "";
+            PieSeries pieSeries = new PieSeries();
+            pieSeries.LabelPoint = p.SeriesView.LabelPoint;
+            string labelName = pieSeries.LabelPoint(p);
+
+            string[] labelNames = labelName.Split('(');
+
+            string passWordStrength = "";
+            if (labelNames[0] != null)
+            {
+                passWordStrength = labelNames[0];
+            }
+
+            List<Password> foundPasswords = new List<Password>();
+
+            foreach (Password password in passWords)
+            {
+                if (password.id == "ump")
+                {
+                    continue;
+                }
+
+                string _password = password.userPassword;
+                int passWordScore = passWordAdvisor.CheckStrength(_password);
+
+                string _passWordStrenght = getPassWordScoreText(passWordScore);
+                if (_passWordStrenght == passWordStrength)
+                {
+                    foundPasswords.Add(password);
+                }
+            }
+            showFoundPasswords(foundPasswords);
+        }
+
         #endregion
 
-        #region enums
+            #region enums
         public enum PasswordScore
         {
             Blank = 0,

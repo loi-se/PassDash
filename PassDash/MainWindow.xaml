@@ -273,21 +273,21 @@
                     <DockPanel Grid.Column="0" Grid.Row="1">
                         <Border CornerRadius="3" BorderBrush="#FF5E645E" Background="LightGray" BorderThickness="3" Margin="1" >
 
-                            <lvc:PieChart Name="ChartPass" Series="{Binding SeriesCollection}" 
+                            <lvc:PieChart Name="ChartPass" Series="{Binding SeriesCollection}" DataClick="ChartPassStrengthOnDataClick"
                       LegendLocation="Right" InnerRadius="100" Margin="0 15">
-                                <lvc:PieChart.ChartLegend>
+                                <!--<lvc:PieChart.ChartLegend>
                                     <lvc:DefaultLegend BulletSize="20"></lvc:DefaultLegend>
                                 </lvc:PieChart.ChartLegend>
                                 <lvc:PieChart.DataTooltip>
                                     <lvc:DefaultTooltip BulletSize="20"></lvc:DefaultTooltip>
-                                </lvc:PieChart.DataTooltip>
+                                </lvc:PieChart.DataTooltip>-->
                             </lvc:PieChart>
                         </Border>
                     </DockPanel>
 
                     <DockPanel Grid.Column="2" Grid.Row="1">
                         <Border CornerRadius="3" BorderBrush="#FF5E645E" Background="LightGray" BorderThickness="3" Margin="1" >
-                            <lvc:PieChart Name="ChartCat" Series="{Binding SeriesCollection}" DataClick="ChartOnDataClick" InnerRadius="100" Margin="0 15">
+                            <lvc:PieChart Name="ChartCat" Series="{Binding SeriesCollection}" DataClick="ChartCatOnDataClick" InnerRadius="100" Margin="0 15">
                                 <!--<lvc:PieChart.ChartLegend>
                                     <lvc:DefaultLegend BulletSize="20"></lvc:DefaultLegend>
                                 </lvc:PieChart.ChartLegend-->
