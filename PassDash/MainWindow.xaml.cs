@@ -88,12 +88,12 @@ namespace PassDash
             ucCategory.Items.Clear();
             passWords.Clear();
             this.bShowAllPasswords.Visibility = Visibility.Hidden;
-            //this.uMasterPassword.Password = "";
+            this.uMasterPassword.Password = "";
             this.tFreeSearch.Text = "";
             this.lerrSearch.Content = "";
 
             openedPasswordFile = "";
-            //masterPassword = "";
+            masterPassword = "";
             resetPassWordForm();
             showPassWords();
             showPassWordPieChart();
