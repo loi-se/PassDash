@@ -89,6 +89,7 @@ namespace PassDash
             passWords.Clear();
             this.bShowAllPasswords.Visibility = Visibility.Hidden;
             this.uMasterPassword.Password = "";
+            this.uTxtMasterPassword.Text = "";
             this.tFreeSearch.Text = "";
             this.lerrSearch.Content = "";
 
