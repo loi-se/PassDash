@@ -47,6 +47,13 @@ namespace PassDash
             treeViewItemAbout.FontSize = 14;
             treeViewItemAbout.MouseLeftButtonUp += treeViewItem_MouseLeftButtonUp;
 
+            TreeViewItem treeViewItemSecurity = new TreeViewItem();
+            treeViewItemSecurity.Name = "Security";
+            treeViewItemSecurity.IsExpanded = true;
+            treeViewItemSecurity.Header = "Security";
+            treeViewItemSecurity.FontSize = 14;
+            treeViewItemSecurity.MouseLeftButtonUp += treeViewItem_MouseLeftButtonUp;
+
 
             TreeViewItem treeViewItemFunc = new TreeViewItem();
             treeViewItemFunc.Name = "Functonalities";
@@ -79,9 +86,10 @@ namespace PassDash
             treeViewItemFunc.Items.Add(treeViewItemCreate);
             treeViewItemFunc.Items.Add(treeViewItemOpen);
             treeViewItemFunc.Items.Add(treeViewItemImport);
-            
 
+         
             this.treeViewHelp.Items.Add(treeViewItemAbout);
+            this.treeViewHelp.Items.Add(treeViewItemSecurity);
             this.treeViewHelp.Items.Add(treeViewItemFunc);
             
         }
@@ -112,6 +120,11 @@ namespace PassDash
                 about();
             }
 
+            else if (treeViewItem.Name == "Security")
+            {
+                security();
+            }
+
         }
 
 
@@ -138,7 +151,23 @@ namespace PassDash
 
         }
 
+        private void security()
+        {
+            ImageSource imageSource = new BitmapImage(new Uri(@"Images/Security diagram.png", UriKind.Relative));
+            imgHelp.Source = imageSource;
+            imgHelp.Width = 800;
+            imgHelp.Height = 550;
 
+            txtBlockHelp1.FontSize = 14; // 24 points
+            txtBlockHelp1.Inlines.Add(new Bold(new Run("Security." + Environment.NewLine + Environment.NewLine)));
+            txtBlockHelp1.Inlines.Add("PassDash ensures the security of your password files in the following way:" + Environment.NewLine);
+            txtBlockHelp1.Inlines.Add("- Password files are encrypted with a modern encyption algorithm." + Environment.NewLine);
+            txtBlockHelp1.Inlines.Add("- Password files can be stored on your own PC." + Environment.NewLine);
+            txtBlockHelp1.Inlines.Add("- PassDash is an offline windows desktop application." + Environment.NewLine);
+            txtBlockHelp1.Inlines.Add("- Every password file has it's own unique master password. It is important that the user picks a hard-to-guess and an easy to remember master password." + Environment.NewLine);
+            txtBlockHelp1.Inlines.Add(" There is no mechanism within PassDash to retrieve lost or forgotten master passwords. The user is responsible for storing his master password." + Environment.NewLine);
+
+        }
         private void CreatePasswordFile()
         {
 
