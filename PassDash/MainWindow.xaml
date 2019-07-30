@@ -244,6 +244,7 @@
                                             <GridViewColumn Header="Username" Width="120" DisplayMemberBinding="{Binding userName}" util:GridViewSort.PropertyName="userName" />
                                             <GridViewColumn Header="Password" Width="120" DisplayMemberBinding="{Binding userPassword}" util:GridViewSort.PropertyName="userPassword" />
                                             <GridViewColumn Header="Date" Width="120" DisplayMemberBinding="{Binding dateTime}" util:GridViewSort.PropertyName="dateTime" />
+                                            <GridViewColumn Header="Strength" Width="120" DisplayMemberBinding="{Binding strength}" util:GridViewSort.PropertyName="strength" />
                                             <!--<GridViewColumn Header="Id" Width="120" DisplayMemberBinding="{Binding id}" util:GridViewSort.PropertyName="id" />-->
                                         </GridView>
                                     </ListView.View>

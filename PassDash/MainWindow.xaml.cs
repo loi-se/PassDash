@@ -45,6 +45,8 @@ namespace PassDash
 
         public Stack<int> saveHistory = new Stack<int>();
         private Dictionary<string, Brush> colorsPasswordStrengthChart = new Dictionary<string, Brush>();
+
+        PasswordAdvisor passWordAdvisor = new PasswordAdvisor();
         public MainWindow()
         {
             InitializeComponent();
@@ -673,6 +675,11 @@ namespace PassDash
                     {
                         foundPassword = true;
                     }
+                    else if (password.strength != null && password.strength.ToLower().Contains(searchQuery.ToLower()))
+                    {
+                        foundPassword = true;
+                    }
+
 
                     if (foundPassword == true)
                     {
@@ -1007,7 +1014,10 @@ namespace PassDash
                     continue;
                 }
 
-                listViewPasswords.Items.Add(new Password { nr = i.ToString(), category = password.category, name = password.name, website = password.website, userName = password.userName, userPassword = password.userPassword, dateTime = password.dateTime, id = password.id });
+                int score = passWordAdvisor.CheckStrength(password.userPassword);
+                string passWordStrength = getPassWordScoreText(score);
+
+                listViewPasswords.Items.Add(new Password { nr = i.ToString(), category = password.category, name = password.name, website = password.website, userName = password.userName, userPassword = password.userPassword, dateTime = password.dateTime, id = password.id, strength = passWordStrength });
                 i = i + 1;
 
                 if (!ucCategory.Items.Contains(password.category))
@@ -1072,13 +1082,15 @@ namespace PassDash
 
         public void showFoundPasswords(List<Password> foundPasswords)
         {
-
             listViewPasswords.Items.Clear();
 
             int i = 1;
             foreach (Password password in foundPasswords)
             {
-                listViewPasswords.Items.Add(new Password { nr = i.ToString(), category = password.category, name = password.name, website = password.website, userName = password.userName, userPassword = password.userPassword, dateTime = password.dateTime, id = password.id });
+                int score = passWordAdvisor.CheckStrength(password.userPassword);
+                string passWordStrength = getPassWordScoreText(score);
+
+                listViewPasswords.Items.Add(new Password { nr = i.ToString(), category = password.category, name = password.name, website = password.website, userName = password.userName, userPassword = password.userPassword, dateTime = password.dateTime, id = password.id, strength = passWordStrength });
                 i = i + 1;
             }
 

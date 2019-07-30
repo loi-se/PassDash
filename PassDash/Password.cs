@@ -52,6 +52,9 @@ namespace PassDash
         [XmlElement("masterPassword")]
         public string masterPassword { get; set; }
 
+        [XmlElement("strength")]
+        public string strength { get; set; }
+
     }
 
 }
