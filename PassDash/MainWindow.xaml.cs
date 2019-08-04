@@ -108,7 +108,7 @@ namespace PassDash
 
         }
 
-     
+
         private void import_Excell_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Office.Interop.Excel.Application xlApp;
@@ -125,170 +125,178 @@ namespace PassDash
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
             string fileName = "";
-            if (openFileDialog.ShowDialog() == true)
+
+            try
             {
-                fileName = openFileDialog.FileName.ToString();
-
-                xlApp = new Microsoft.Office.Interop.Excel.Application();
-                xlWorkBook = xlApp.Workbooks.Open(fileName, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
-                xlWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
-
-                range = xlWorkSheet.UsedRange;
-                rw = range.Rows.Count;
-                cl = range.Columns.Count;
-
-                int rowCount = 0;
-                Dictionary<int, string> passWordColumns = new Dictionary<int, string>();
-
-                for (rCnt = 1; rCnt <= rw; rCnt++)
+                if (openFileDialog.ShowDialog() == true)
                 {
+                    fileName = openFileDialog.FileName.ToString();
 
-                    Password newPassword = new Password();
-                    Boolean passwordValid = false;
+                    xlApp = new Microsoft.Office.Interop.Excel.Application();
+                    xlWorkBook = xlApp.Workbooks.Open(fileName, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
+                    xlWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
 
-                    for (cCnt = 1; cCnt <= cl; cCnt++)
-                    {
-                        str = Convert.ToString((range.Cells[rCnt, cCnt] as Microsoft.Office.Interop.Excel.Range).Value2);
-                        if (rowCount == 0)
-                        {
-                            if (str != null)
-                            {
-                                if (str.ToLower() == "name")
-                                {
-                                    passWordColumns.Add(cCnt, "name");
-                                }
-                                else if (str.ToLower() == "username")
-                                {
-                                    passWordColumns.Add(cCnt, "username");
-                                }
-                                else if (str.ToLower() == "password")
-                                {
-                                    passWordColumns.Add(cCnt, "password");
-                                }
-                                else if (str.ToLower() == "note")
-                                {
-                                    passWordColumns.Add(cCnt, "note");
-                                }
-                                else if (str.ToLower() == "category")
-                                {
-                                    passWordColumns.Add(cCnt, "category");
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (passWordColumns.ContainsKey(cCnt))
-                            {
-                                string column = passWordColumns[cCnt];
-                                if (column == "name")
-                                {
-                                    if (str == null)
-                                    {
-                                        newPassword.name = "";
-                                    }
-                                    else
-                                    {
-                                        newPassword.name = str;
-                                    }
-                                }
-                                else if (column == "username")
-                                {
-                                    if (str == null)
-                                    {
-                                        newPassword.userName = "";
-                                    }
-                                    else
-                                    {
-                                        newPassword.userName = str;
-                                    }
-                                }
-                                else if (column == "password")
-                                {
-                                    if (str == null)
-                                    {
-                                        newPassword.userPassword = "";
-                                    }
-                                    else
-                                    {
-                                        newPassword.userPassword = str;
-                                    }
-                                }
-                                else if (column == "note")
-                                {
-                                    if (str == null)
-                                    {
-                                        newPassword.note = "";
-                                    }
-                                    else
-                                    {
-                                        newPassword.note = str;
-                                    }
-                                }
-                                else if (column == "category")
-                                {
-                                    if (str == null)
-                                    {
-                                        newPassword.category = "";
-                                    }
-                                    else
-                                    {
-                                        newPassword.category = str;
-                                    }
-                                }
-                            }
+                    range = xlWorkSheet.UsedRange;
+                    rw = range.Rows.Count;
+                    cl = range.Columns.Count;
 
-                            if ((newPassword.name != "" && newPassword.name != null) || (newPassword.userName != "" && newPassword.userName != null))
-                            {
-                                passwordValid = true;
-                            }
-                        }
-                    }
+                    int rowCount = 0;
+                    Dictionary<int, string> passWordColumns = new Dictionary<int, string>();
 
-                    if (passwordValid == true)
+                    for (rCnt = 1; rCnt <= rw; rCnt++)
                     {
 
-                        if (newPassword.name == null)
+                        Password newPassword = new Password();
+                        Boolean passwordValid = false;
+
+                        for (cCnt = 1; cCnt <= cl; cCnt++)
                         {
-                            newPassword.name = "";
-                        }
-                        if (newPassword.userPassword == null)
-                        {
-                            newPassword.userPassword = "";
-                        }
-                        if (newPassword.userName == null)
-                        {
-                            newPassword.userName = "";
-                        }
-                        if (newPassword.note == null)
-                        {
-                            newPassword.note = "";
-                        }
-                       if (newPassword.category == null)
-                        {
-                            newPassword.category = "";
+                            str = Convert.ToString((range.Cells[rCnt, cCnt] as Microsoft.Office.Interop.Excel.Range).Value2);
+                            if (rowCount == 0)
+                            {
+                                if (str != null)
+                                {
+                                    if (str.ToLower() == "name")
+                                    {
+                                        passWordColumns.Add(cCnt, "name");
+                                    }
+                                    else if (str.ToLower() == "username")
+                                    {
+                                        passWordColumns.Add(cCnt, "username");
+                                    }
+                                    else if (str.ToLower() == "password")
+                                    {
+                                        passWordColumns.Add(cCnt, "password");
+                                    }
+                                    else if (str.ToLower() == "note")
+                                    {
+                                        passWordColumns.Add(cCnt, "note");
+                                    }
+                                    else if (str.ToLower() == "category")
+                                    {
+                                        passWordColumns.Add(cCnt, "category");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (passWordColumns.ContainsKey(cCnt))
+                                {
+                                    string column = passWordColumns[cCnt];
+                                    if (column == "name")
+                                    {
+                                        if (str == null)
+                                        {
+                                            newPassword.name = "";
+                                        }
+                                        else
+                                        {
+                                            newPassword.name = str;
+                                        }
+                                    }
+                                    else if (column == "username")
+                                    {
+                                        if (str == null)
+                                        {
+                                            newPassword.userName = "";
+                                        }
+                                        else
+                                        {
+                                            newPassword.userName = str;
+                                        }
+                                    }
+                                    else if (column == "password")
+                                    {
+                                        if (str == null)
+                                        {
+                                            newPassword.userPassword = "";
+                                        }
+                                        else
+                                        {
+                                            newPassword.userPassword = str;
+                                        }
+                                    }
+                                    else if (column == "note")
+                                    {
+                                        if (str == null)
+                                        {
+                                            newPassword.note = "";
+                                        }
+                                        else
+                                        {
+                                            newPassword.note = str;
+                                        }
+                                    }
+                                    else if (column == "category")
+                                    {
+                                        if (str == null)
+                                        {
+                                            newPassword.category = "";
+                                        }
+                                        else
+                                        {
+                                            newPassword.category = str;
+                                        }
+                                    }
+                                }
+
+                                if ((newPassword.name != "" && newPassword.name != null) || (newPassword.userName != "" && newPassword.userName != null))
+                                {
+                                    passwordValid = true;
+                                }
+                            }
                         }
 
+                        if (passwordValid == true)
+                        {
 
-                        newPassword.id = Guid.NewGuid().ToString();
-                        newPassword.dateTime = DateTime.Now.ToShortDateString();
-                        //newPassword.category = "";
-                        newPassword.nr = "";
-                        newPassword.website = "";
-                        passWords.Add(newPassword);
+                            if (newPassword.name == null)
+                            {
+                                newPassword.name = "";
+                            }
+                            if (newPassword.userPassword == null)
+                            {
+                                newPassword.userPassword = "";
+                            }
+                            if (newPassword.userName == null)
+                            {
+                                newPassword.userName = "";
+                            }
+                            if (newPassword.note == null)
+                            {
+                                newPassword.note = "";
+                            }
+                            if (newPassword.category == null)
+                            {
+                                newPassword.category = "";
+                            }
+
+
+                            newPassword.id = Guid.NewGuid().ToString();
+                            newPassword.dateTime = DateTime.Now.ToShortDateString();
+                            //newPassword.category = "";
+                            newPassword.nr = "";
+                            newPassword.website = "";
+                            passWords.Add(newPassword);
+                        }
+                        rowCount = rowCount + 1;
                     }
-                    rowCount = rowCount + 1;
+
+                    xlWorkBook.Close(true, null, null);
+                    xlApp.Quit();
+
+                    Marshal.ReleaseComObject(xlWorkSheet);
+                    Marshal.ReleaseComObject(xlWorkBook);
+                    Marshal.ReleaseComObject(xlApp);
+
+                    showPassWords();
+                    showPassWordPieChart();
+                    showCatPieChart();
                 }
-
-                xlWorkBook.Close(true, null, null);
-                xlApp.Quit();
-
-                Marshal.ReleaseComObject(xlWorkSheet);
-                Marshal.ReleaseComObject(xlWorkBook);
-                Marshal.ReleaseComObject(xlApp);
-
-                showPassWords();
-                showPassWordPieChart();
-                showCatPieChart();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Importing from Excell failed: " + ex.ToString());
             }
         }
 
@@ -302,45 +310,52 @@ namespace PassDash
             saveFileDialog.CreatePrompt = true;
             saveFileDialog.Title = "Export Excel File To";
 
-            if (saveFileDialog.ShowDialog() == true)
+            try
             {
-                Microsoft.Office.Interop.Excel.Application app = new Microsoft.Office.Interop.Excel.Application();
-                app.Visible = true;
-                Microsoft.Office.Interop.Excel.Workbook wb = app.Workbooks.Add(1);
-                Microsoft.Office.Interop.Excel.Worksheet ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
-                int i = 1;
-                int i2 = 1;
-
-                ws.Cells[i2, 1] = "nr";
-                ws.Cells[i2, 2] = "name";
-                ws.Cells[i2, 3] = "category";
-                ws.Cells[i2, 4] = "username";
-                ws.Cells[i2, 5] = "password";
-                ws.Cells[i2, 6] = "note";
-                ws.Cells[i2, 7] = "website";
-
-                foreach (Password password in passWords)
+                if (saveFileDialog.ShowDialog() == true)
                 {
-                    if (password.id == "ump")
+                    Microsoft.Office.Interop.Excel.Application app = new Microsoft.Office.Interop.Excel.Application();
+                    app.Visible = true;
+                    Microsoft.Office.Interop.Excel.Workbook wb = app.Workbooks.Add(1);
+                    Microsoft.Office.Interop.Excel.Worksheet ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
+                    int i = 1;
+                    int i2 = 1;
+
+                    ws.Cells[i2, 1] = "nr";
+                    ws.Cells[i2, 2] = "name";
+                    ws.Cells[i2, 3] = "category";
+                    ws.Cells[i2, 4] = "username";
+                    ws.Cells[i2, 5] = "password";
+                    ws.Cells[i2, 6] = "note";
+                    ws.Cells[i2, 7] = "website";
+
+                    foreach (Password password in passWords)
                     {
-                        continue;
+                        if (password.id == "ump")
+                        {
+                            continue;
+                        }
+
+                        i2++;
+                        ws.Cells[i2, 1] = password.nr;
+                        ws.Cells[i2, 2] = password.name;
+                        ws.Cells[i2, 3] = password.category;
+                        ws.Cells[i2, 4] = password.userName;
+                        ws.Cells[i2, 5] = password.userPassword;
+                        ws.Cells[i2, 6] = password.note;
+                        ws.Cells[i2, 7] = password.website;
+
                     }
-
-                    i2++;
-                    ws.Cells[i2, 1] = password.nr;
-                    ws.Cells[i2, 2] = password.name;
-                    ws.Cells[i2, 3] = password.category;
-                    ws.Cells[i2, 4] = password.userName;
-                    ws.Cells[i2, 5] = password.userPassword;
-                    ws.Cells[i2, 6] = password.note;
-                    ws.Cells[i2, 7] = password.website;
-
+                    //wb.Save();
+                    wb.SaveAs(saveFileDialog.FileName.ToString(), Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing,
+                      Type.Missing, Type.Missing);
+                    //wb.Close(false, Type.Missing, Type.Missing);
+                    //app.Quit();
                 }
-                //wb.Save();
-                wb.SaveAs(saveFileDialog.FileName.ToString(), Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing,
-                  Type.Missing, Type.Missing);
-                //wb.Close(false, Type.Missing, Type.Missing);
-                //app.Quit();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exporting to Excell failed: " + ex.ToString());
             }
         }
 
