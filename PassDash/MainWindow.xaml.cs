@@ -1418,9 +1418,6 @@ namespace PassDash
 
         private void testData()
         {
-
-            this.uMasterPassword.Password = "Honingbij85!";
-            masterPassword = "Honingbij85!";
             //passWords.Add(new Password { name = "111", category= "new", website = "www.nu.nl", userName = "Wi", userPassword = "1234567", note = "note1", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
             //passWords.Add(new Password { name = "111", category = "new", website = "www.nu.nl", userName = "Ro", userPassword = "1234567", note = "note2", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
             // passWords.Add(new Password { name = "111", category = "new", website = "www.nu.nl", userName = "Eg", userPassword = "1234567", note = "note3", dateTime = DateTime.Now.ToShortDateString().ToString(), id = Guid.NewGuid().ToString() });
