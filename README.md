@@ -21,3 +21,5 @@ Features:
 -View all you password data in one clear dashboard screen.
 
 -Unlimited number of passwords per password file.
+
+![Screenshot](Passdash.jpg)
