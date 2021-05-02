@@ -1,4 +1,4 @@
-﻿<Window x:Class="PassDash.MainWindow"
+﻿<controls:MetroWindow x:Class="PassDash.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:util="clr-namespace:PassDash"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,9 +6,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:PassDash"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls" 
         mc:Ignorable="d"
         Title="PassDash" Height="700" Width="1200" Icon="Images/icon.png">
-    <DockPanel>
+    <DockPanel Background="#FF252525">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
 
@@ -31,42 +32,13 @@
         </Menu>
         <TextBox AcceptsReturn="True" />
         <TabControl Name="tabControlMain">
-            <TabControl.Resources>
-                <Style TargetType="TabItem">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="TabItem">
-                                <Grid Name="Panel">
-                                    <ContentPresenter x:Name="ContentSite"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center"
-                                        ContentSource="Header"
-                                        Margin="10,2"
-                                        TextBlock.FontFamily="Tahoma"
-                                        TextBlock.FontWeight="Bold"
-                                        TextBlock.FontSize="12"
-                                                  />
-                                </Grid>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Panel" Property="Background" >
-                                            <Setter.Value>
-                                                <SolidColorBrush Color="#FFE2E2E2"/>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="False">
-                                        <Setter TargetName="Panel" Property="Background" Value="White" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TabControl.Resources>
-
-
-            <TabItem Name ="tabItemMasterPassword" Header="Master password" Background="#FFCEE4C5">
+            <TabItem Name ="tabItemMasterPassword">
+                <TabItem.Header>
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Image Width="25" Source="Images/master-key.png"/>
+                        <Label Content="Master password"/>
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid ShowGridLines="False">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -77,8 +49,8 @@
                     <StackPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" >
                         <!--<Image Source="Images/logo.png" Width="250" Height="180" HorizontalAlignment="Center" VerticalAlignment="Center" />-->
                         <Label Name="lmasterPassWord" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="17" Content="Master password:" />
-                        <DockPanel Grid.Column="0" Grid.Row="0" Width="750" Height="400" VerticalAlignment="Center" HorizontalAlignment="Center" Background="#FFE8E8E8">
-                            <Border CornerRadius="3" BorderThickness="3" Margin="1" Background="#FFEAEAEA">
+                        <DockPanel Grid.Column="0" Grid.Row="0" Width="750" Height="400" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                            <Border CornerRadius="3" BorderThickness="3" Margin="1">
                                 <Border.BorderBrush>
                                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.AppWorkspaceColorKey}}"/>
                                 </Border.BorderBrush>
@@ -101,11 +73,11 @@
                                         <ColumnDefinition Width="165*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBox Grid.Column="0" Grid.Row="1" Text="Master password:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0" Width="98" Background="{x:Null}" Foreground="Black"  IsReadOnly="True"/>
+                                    <TextBox Grid.Column="0" Grid.Row="1" Text="Master password:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0" Width="98" Background="{x:Null}"   IsReadOnly="True"/>
 
-                                    <PasswordBox x:Name="uMasterPassword" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" BorderThickness="1" />
-                                    <TextBox x:Name="uTxtMasterPassword" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" BorderThickness="1" Visibility="Hidden"/>
-                                    <TextBlock Grid.Column="2" Grid.Row="1" Name="lerrMasterPassword" TextWrapping="WrapWithOverflow" Margin="10,0,0,0" Foreground="#FFFF031A"/>
+                                    <PasswordBox x:Name="uMasterPassword" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" BorderThickness="1"  Height="25"/>
+                                    <TextBox x:Name="uTxtMasterPassword" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" BorderThickness="1" Visibility="Hidden" Height="25"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="1" Name="lerrMasterPassword" TextWrapping="WrapWithOverflow" Margin="10,0,0,0" Foreground="#FFFF031A" VerticalAlignment="Center"/>
                                     <CheckBox Grid.Column="1" Grid.Row="2" Name="chkMasterPassword" Content="Show combination" Click="chkMasterPassword_Click"/>
 
                                     <Button Grid.Column="1" Grid.Row="2" Name="bOpenFile" Width="90" Height="30" Click="bOpenFile_Click" ToolTip="Open file" Content="Open file" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,6" Grid.RowSpan="3">
@@ -130,7 +102,13 @@
                     </DockPanel>
                 </Grid>
             </TabItem>
-            <TabItem Name="tabItemPasswords" Header="My Passwords" FontSize="14">
+            <TabItem Name="tabItemPasswords" FontSize="14">
+                <TabItem.Header>
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Image Width="25" Source="Images/password.png"/>
+                        <Label Content="My passwords"/>
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid ShowGridLines="False">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -141,21 +119,21 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <DockPanel Grid.Column="0" Grid.Row="0">
-                        <Border CornerRadius="3" BorderBrush="#FF5E645E" Background="White" BorderThickness="3" Margin="1">
+                        <Border CornerRadius="3"  BorderThickness="3" Margin="1">
                             <Grid ShowGridLines="False">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100*"/>
@@ -163,11 +141,12 @@
                                     <ColumnDefinition Width="100*"/>
                                     <ColumnDefinition Width="239*"/>
                                 </Grid.ColumnDefinitions>
-
-                                <Label Name="lpassWordForm" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" />
+                                <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Background="#0767B3">
+                                    <Label Name="lpassWordForm" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" />
+                                </DockPanel>
 
                                 <TextBox Grid.Column="0" Grid.Row="1" Text="Name:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0"  IsReadOnly="True"  />
-                                <TextBox x:Name="uName" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" BorderThickness="1"  />
+                                <TextBox x:Name="uName" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" BorderThickness="1"  Height="25" />
 
                                 <TextBox Grid.Column="0" Grid.Row="2" Text="Category:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0"  IsReadOnly="True" />
                                 <!--<TextBox x:Name="uCategory" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" BorderThickness="1"  />-->
@@ -175,7 +154,7 @@
                                 <ComboBox x:Name="ucCategory" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" BorderThickness="1"  IsEditable="True" />
 
                                 <TextBox Grid.Column="0" Grid.Row="3" Text="Website:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0"  IsReadOnly="True" />
-                                <TextBox x:Name="uWebsite" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" BorderThickness="1"   />
+                                <TextBox x:Name="uWebsite" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" BorderThickness="1"   Height="25"  />
 
                                 <Button Grid.Column="2" Grid.Row="3" Name="bOpenWebsite" Width="30" Click="openWebsite_Click" ToolTip="Open website" HorizontalAlignment="Center" Height="25" VerticalAlignment="Center" >
                                     <StackPanel Orientation="Horizontal">
@@ -185,31 +164,31 @@
                                 </Button>
 
                                 <TextBox Grid.Column="0" Grid.Row="4" Text="User name:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0" IsReadOnly="True" />
-                                <TextBox x:Name="uUsername" Grid.Column="1" Grid.Row="4" BorderThickness="1" VerticalAlignment="Center"   />
+                                <TextBox x:Name="uUsername" Grid.Column="1" Grid.Row="4" BorderThickness="1" VerticalAlignment="Center"   Height="25"  />
 
                                 <TextBox Grid.Column="0" Grid.Row="5" Text="Password:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0"  IsReadOnly="True" />
-                                <TextBox x:Name="uPassword" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" BorderThickness="1"    />
+                                <TextBox x:Name="uPassword" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" BorderThickness="1"  Height="25"    />
 
                                 <TextBox Name="passwordStrength" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Center" IsReadOnly="True"  />
                                 
                                 
-                                <TextBox Grid.Column="0" Grid.Row="7" Text="Note:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0"  IsReadOnly="True" />
-                                <TextBox x:Name="uNote" Grid.Column="1" Grid.Row="7" BorderThickness="1" Grid.RowSpan="2" />
+                                <TextBox Grid.Column="0" Grid.Row="6" Text="Note:" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0"  IsReadOnly="True" />
+                                <TextBox x:Name="uNote" Grid.Column="1" Grid.Row="6" BorderThickness="1" Grid.RowSpan="2" />
                                
 
-                                <Button Grid.Column="1" Grid.Row="9" Name="bDelPassword" Width="30" Click="delPassword_Click" ToolTip="Delete your password" HorizontalAlignment="Left" VerticalAlignment="Center" Height="25">
+                                <Button Grid.Column="1" Grid.Row="8" Name="bDelPassword" Width="30" Click="delPassword_Click" ToolTip="Delete your password" HorizontalAlignment="Left" VerticalAlignment="Center" Height="25">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="Images/del.png" Stretch="Fill"/>
                                         <TextBlock Text="" VerticalAlignment="Center" />
                                     </StackPanel>
                                 </Button>
-                                <Button Grid.Column="1" Grid.Row="9" Name="bAddPassword" Width="50"  Click="addPassword_Click" ToolTip="Add your password" Content="Add" HorizontalAlignment="Right" Height="25" VerticalAlignment="Center" />
+                                <Button Grid.Column="1" Grid.Row="8" Name="bAddPassword" Width="50"  Click="addPassword_Click" ToolTip="Add your password" Content="Add" HorizontalAlignment="Right" Height="25" VerticalAlignment="Center" />
 
 
-                                <Label Grid.Column="3" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FF0000" Name="lerrName" />
-                                <Label Grid.Column="3" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0000" Name="lerrWebsite" />
-                                <Label Grid.Column="3" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0000" Name="lerrUserName" />
-                                <Label Grid.Column="3" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0000" Name="lerrPassword" />
+                                <TextBlock Grid.Column="3" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FF0000" Name="lerrName" />
+                                <TextBlock Grid.Column="3" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0000" Name="lerrWebsite" />
+                                <TextBlock Grid.Column="3" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0000" Name="lerrUserName" />
+                                <TextBlock Grid.Column="3" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0000" Name="lerrPassword" />
 
 
 
@@ -217,11 +196,11 @@
                         </Border>
                     </DockPanel>
                     <DockPanel Grid.Column="1" Grid.Row="0" LastChildFill="True">
-                        <Border CornerRadius="3" BorderBrush="#FF5E645E" Background="White" BorderThickness="3" Margin="1" >
+                        <Border CornerRadius="3" BorderThickness="3" Margin="1" >
 
                             <Grid ShowGridLines="False">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="10*"/>
+                                    <RowDefinition Height="30"/>
                                     <RowDefinition Height="65*"/>
                                     <RowDefinition Height="25*"/>
                                 </Grid.RowDefinitions>
@@ -229,12 +208,14 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <!--<StackPanel Margin="0">-->
-                                <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Label Name="lpasswordListView" Grid.Column="0" Grid.Row="0"  FontWeight="Bold" Content="My Passwords:" FontSize="14" VerticalAlignment="Center" />
-                                    <Label Name="lpasswordFileName" Grid.Column="0" Grid.Row="0" FontWeight="Bold" Content="" FontSize="11" VerticalAlignment="Center" />
-                                </StackPanel>
+                                <DockPanel Grid.Column="0" Grid.Row="0"  Background="#0767B3">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Label Name="lpasswordListView" Grid.Column="0" Grid.Row="0"  FontWeight="Bold" Content="My Passwords:" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    <TextBlock Name="lpasswordFileName" Grid.Column="0" Grid.Row="0" FontWeight="Bold" FontSize="11" VerticalAlignment="Center" Foreground="Yellow" HorizontalAlignment="Center"  />
+                                    </StackPanel>
+                                </DockPanel>
                                 <ListView Name="listViewPasswords" Grid.Column="0" Grid.Row="1" IsSynchronizedWithCurrentItem="True" PreviewMouseLeftButtonUp="listView_Click"
-                              util:GridViewSort.AutoSort="True" Background="#FFDCF0DD">
+                              util:GridViewSort.AutoSort="True">
                                     <ListView.View>
                                         <GridView>
                                             <GridViewColumn Header="#" Width="30" DisplayMemberBinding="{Binding nr}" util:GridViewSort.PropertyName="nr"/>
@@ -249,12 +230,7 @@
                                         </GridView>
                                     </ListView.View>
                                 </ListView>
-                                <Button Width="50" Height="50" Grid.Column="0" Grid.Row="2" VerticalAlignment="Bottom" Click="addNewPassword_Click" ToolTip="Create new password" IsEnabled="True" Margin="2" HorizontalAlignment="Right">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="Images/new.png" Stretch="Fill"/>
-                                        <TextBlock Text="" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </Button>
+                               
                                 <Button Name="bShowAllPasswords" Width="70" Height="30" Grid.Column="0" Grid.Row="2" Content="Show all" VerticalAlignment="Bottom" Click="showAllPasswords_Click" ToolTip="Show all passwords" IsEnabled="True" Margin="2" HorizontalAlignment="Left">
                                 </Button>
 
@@ -262,8 +238,15 @@
                                     <TextBox x:Name="tFreeSearch" Grid.Column="0" Grid.Row="2" BorderThickness="1" Grid.RowSpan="1" Width="300" Height="30"/>
                                     <Button Name="bSearchAllPasswords" Width="70" Height="30" Grid.Column="0" Grid.Row="2" Content="Search"  Click="searchAllPasswords_Click" ToolTip="Search in passwords" IsEnabled="True" Margin="2" >
                                     </Button>
-                                    <Label Grid.Column="0" Grid.Row="2" Foreground="#FF0000" Name="lerrSearch" />
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Foreground="#FF0000" Name="lerrSearch"  VerticalAlignment="Center"/>
                                 </StackPanel>
+
+                                <Button Width="30" Height="30" Grid.Column="0" Grid.Row="2" VerticalAlignment="Top" Click="addNewPassword_Click" ToolTip="Create new password" IsEnabled="True" Margin="2" HorizontalAlignment="Right">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="Images/new.png" Stretch="Fill"/>
+                                        <TextBlock Text="" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
 
                                 <!--</StackPanel>-->
                             </Grid>
@@ -273,18 +256,35 @@
                     </DockPanel>
                     <DockPanel Grid.Column="0" Grid.Row="1">
                        
-                        <Border CornerRadius="3" BorderBrush="#FF5E645E" Background="LightGray" BorderThickness="3" Margin="1" >
+                        <Border CornerRadius="3"  BorderThickness="3" Margin="1" >
                             <DockPanel>
-                                <Label Name="lChartPassStrength" Grid.Column="0" Grid.Row="0"  FontWeight="Bold" Content="Password strength:" FontSize="14" Height="30" VerticalAlignment="Top"  DockPanel.Dock="Top" HorizontalAlignment="Center"/>
-                                <lvc:PieChart Name="ChartPass" Series="{Binding SeriesCollection}" DataClick="ChartPassStrengthOnDataClick"
+                                <Grid ShowGridLines="False">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <DockPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Background="#0767B3">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Image Source="Images/filter.png"></Image>
+                                            <Label Name="lChartPassStrength" Grid.Column="0" Grid.Row="0"  FontWeight="Bold" Content="Password strength:" FontSize="14" Height="30" VerticalAlignment="Top"  HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                    </DockPanel>
+
+
+                                    <lvc:PieChart Name="ChartPass" Grid.Column="0" Grid.Row="1" Series="{Binding SeriesCollection}" DataClick="ChartPassStrengthOnDataClick" Foreground="White"
                       LegendLocation="Right" InnerRadius="100" Margin="0 15">
-                                    <!--<lvc:PieChart.ChartLegend>
+                                        <!--<lvc:PieChart.ChartLegend>
                                     <lvc:DefaultLegend BulletSize="20"></lvc:DefaultLegend>
                                 </lvc:PieChart.ChartLegend>
                                 <lvc:PieChart.DataTooltip>
                                     <lvc:DefaultTooltip BulletSize="20"></lvc:DefaultTooltip>
                                 </lvc:PieChart.DataTooltip>-->
-                                </lvc:PieChart>
+                                    </lvc:PieChart>
+                                </Grid>
                             </DockPanel>
                         </Border>
                     </DockPanel>
@@ -293,17 +293,34 @@
                     <DockPanel Grid.Column="2" Grid.Row="1">
                        
                         <!--<StackPanel Orientation="Vertical" >-->
-                        <Border CornerRadius="3" BorderBrush="#FF5E645E" Background="LightGray" BorderThickness="3" Margin="1" >
+                        <Border CornerRadius="3"  BorderThickness="3" Margin="1" >
                             <DockPanel>
-                                <Label Name="lChartCat" Grid.Column="0" Grid.Row="0"  FontWeight="Bold" Content="Categories:" FontSize="14" Height="30" VerticalAlignment="Top"  DockPanel.Dock="Top" HorizontalAlignment="Center"/>
-                                <lvc:PieChart Name="ChartCat" Series="{Binding SeriesCollection}" DataClick="ChartCatOnDataClick" InnerRadius="100" Margin="0 15">
-                                    <!--<lvc:PieChart.ChartLegend>
+                                <Grid ShowGridLines="False">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <DockPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Background="#0767B3">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Image Source="Images/filter.png"></Image>
+                                            <Label Name="lChartCat" Grid.Column="0" Grid.Row="0"  FontWeight="Bold" Content="Categories:" FontSize="14" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            
+                                        </StackPanel>
+                                    </DockPanel>
+
+                                    <lvc:PieChart Name="ChartCat" Grid.Column="0" Grid.Row="1" Series="{Binding SeriesCollection}" DataClick="ChartCatOnDataClick" InnerRadius="100" Margin="0 15">
+                                        <!--<lvc:PieChart.ChartLegend>
                                     <lvc:DefaultLegend BulletSize="20"></lvc:DefaultLegend>
                                 </lvc:PieChart.ChartLegend-->
-                                    <!--<lvc:PieChart.DataTooltip>
+                                        <!--<lvc:PieChart.DataTooltip>
                                     <lvc:DefaultTooltip BulletSize="20"></lvc:DefaultTooltip>
                                 </lvc:PieChart.DataTooltip>-->
-                                </lvc:PieChart>
+                                    </lvc:PieChart>
+                                </Grid>
                             </DockPanel>
 
                         </Border>
@@ -312,4 +329,4 @@
             </TabItem>
         </TabControl>
     </DockPanel>
-</Window>
+</controls:MetroWindow>

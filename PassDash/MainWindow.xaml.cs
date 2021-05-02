@@ -25,13 +25,14 @@ using System.Data;
 using LiveCharts.Wpf.Points;
 using Microsoft.Office.Interop;
 using System.Runtime.InteropServices;
+using MahApps.Metro.Controls;
 
 namespace PassDash
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
 
         public List<Password> passWords;
@@ -93,7 +94,7 @@ namespace PassDash
             this.uMasterPassword.Password = "";
             this.uTxtMasterPassword.Text = "";
             this.tFreeSearch.Text = "";
-            this.lerrSearch.Content = "";
+            this.lerrSearch.Text = "";
 
             openedPasswordFile = "";
             masterPassword = "";
@@ -480,7 +481,7 @@ namespace PassDash
                         this.bShowAllPasswords.Visibility = Visibility.Hidden;
                         this.uMasterPassword.Password = "";
                         this.tFreeSearch.Text = "";
-                        this.lerrSearch.Content = "";
+                        this.lerrSearch.Text = "";
 
                         //openedPasswordFile = "";
                         //this.lpasswordFileName.Content = "";
@@ -575,7 +576,7 @@ namespace PassDash
             if (this.uName.Text.Length <= 2)
             {
                 valid = false;
-                this.lerrName.Content = "Name must have 3 characters";
+                this.lerrName.Text = "Name must have 3 characters";
             }
 
             if (this.bAddPassword.Content.ToString() == "Edit")
@@ -647,14 +648,14 @@ namespace PassDash
             showPassWords();
             this.bShowAllPasswords.Visibility = Visibility.Hidden;
             this.tFreeSearch.Text = "";
-            this.lerrSearch.Content = "";
+            this.lerrSearch.Text = "";
         }
 
         private void searchAllPasswords_Click(object sender, RoutedEventArgs e)
         {
             List<Password> foundPasswords = new List<Password>();
             string searchQuery = tFreeSearch.Text;
-            lerrSearch.Content = "";
+            lerrSearch.Text = "";
 
             if (searchQuery.Length > 2)
             {
@@ -709,13 +710,13 @@ namespace PassDash
                 }
                 else
                 {
-                    lerrSearch.Content = "No passwords found.";
+                    lerrSearch.Text = "No passwords found.";
 
                 }
             }
             else
             {
-                lerrSearch.Content = "Search query should have at least 3 characters.";
+                lerrSearch.Text = "Search query should have at least 3 characters.";
             }
         }
 
@@ -937,7 +938,7 @@ namespace PassDash
             openedPasswordFile = filePath;
             string file = System.IO.Path.GetFileName(filePath);
             file = file.Replace(".xml", "") + ".xml";
-            lpasswordFileName.Content = file;
+            lpasswordFileName.Text = file;
             return file;
         }
 
@@ -1055,7 +1056,7 @@ namespace PassDash
             }
             else if (lastSavePasswordCount == passWords.Count() - 1)
             {
-                lpasswordFileName.Foreground = Brushes.Green;
+                lpasswordFileName.Foreground = Brushes.Yellow;
             }
 
         }
@@ -1080,18 +1081,18 @@ namespace PassDash
             this.ucCategory.Text = "";
             this.uNote.Text = "";
 
-            this.lerrName.Content = "";
-            this.lerrPassword.Content = "";
-            this.lerrUserName.Content = "";
-            this.lerrWebsite.Content = "";
+            this.lerrName.Text = "";
+            this.lerrPassword.Text = "";
+            this.lerrUserName.Text = "";
+            this.lerrWebsite.Text = "";
         }
 
         private void clearErrors()
         {
-            this.lerrName.Content = "";
-            this.lerrPassword.Content = "";
-            this.lerrUserName.Content = "";
-            this.lerrWebsite.Content = "";
+            this.lerrName.Text = "";
+            this.lerrPassword.Text = "";
+            this.lerrUserName.Text = "";
+            this.lerrWebsite.Text = "";
         }
 
 
@@ -1114,7 +1115,7 @@ namespace PassDash
                 this.bShowAllPasswords.Visibility = Visibility.Visible;
             }
 
-            lerrSearch.Content = "";
+            lerrSearch.Text = "";
             lpasswordListView.Content = "My Passwords" + " (" + foundPasswords.Count + "/" + (passWords.Count() - 1).ToString() + ")" + ":";
         }
 
@@ -1296,7 +1297,7 @@ namespace PassDash
         private void ChartCatOnDataClick(object sender, ChartPoint p)
         {
             this.tFreeSearch.Text = "";
-            this.lerrSearch.Content = "";
+            this.lerrSearch.Text = "";
             PieSeries pieSeries = new PieSeries();
             pieSeries.LabelPoint = p.SeriesView.LabelPoint;   
             string labelName = pieSeries.LabelPoint(p);
@@ -1333,7 +1334,7 @@ namespace PassDash
 
             PasswordAdvisor passWordAdvisor = new PasswordAdvisor();
             this.tFreeSearch.Text = "";
-            this.lerrSearch.Content = "";
+            this.lerrSearch.Text = "";
             PieSeries pieSeries = new PieSeries();
             pieSeries.LabelPoint = p.SeriesView.LabelPoint;
             string labelName = pieSeries.LabelPoint(p);

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PassDash"
         mc:Ignorable="d"
-        Title="PassDash Help" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1200" Height="800">
+        Title="PassDash Help" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1200" Height="800" Icon="Images/icon.png">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -21,13 +21,13 @@
                 <ColumnDefinition Width="209*"/>
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Column="0" Grid.Row="0">
-                <Border CornerRadius="3" BorderBrush="#FF5E645E" Background="White" BorderThickness="3" Margin="1">
+                <Border CornerRadius="3" BorderBrush="#FF5E645E" BorderThickness="3" Margin="1">
                     <TreeView Name="treeViewHelp"/>
                 </Border>
             </DockPanel>
             <DockPanel Grid.Column="1" Grid.Row="0">
-                <Border CornerRadius="3" BorderBrush="#FF5E645E" Background="White" BorderThickness="3" Margin="1">
-                    <ScrollViewer IsTabStop="True" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                <Border CornerRadius="3" BorderBrush="#FF5E645E" BorderThickness="3" Margin="1">
+                    <ScrollViewer IsTabStop="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" Background="#FF252525">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Name="txtBlockHelp1">
                             </TextBlock>

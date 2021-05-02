@@ -4,7 +4,149 @@
              xmlns:local="clr-namespace:PassDash"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Blue.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+
+
+            <!--<Style TargetType="{x:Type GridViewColumnHeader}" >
+                <Setter Property="OverridesDefaultStyle" Value="true"/>
+                <Setter Property="FontFamily" Value="Arial"/>
+                <Setter Property="FontSize" Value="11"/>
+                <Setter Property="Foreground" Value="#454545"/>
+                <Setter Property="Background" Value="#454545" />
+            </Style>-->
+
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="FontFamily" Value="Arial"/>
+                <Setter Property="FontSize" Value="12"/>
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="FontFamily" Value="Arial"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+            
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="White"/>
+            </Style>
+
+
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Background" Value="#0767B3"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="false">
+                        <Setter Property="Foreground" Value="#454545"/>
+                        <Setter Property="Background" Value="#454545" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="{x:Type ListViewItem}" TargetType="ListViewItem">
+                <Setter Property="SnapsToDevicePixels" Value="true"/>
+                <Setter Property="OverridesDefaultStyle" Value="true"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Border 
+          Name="Border"
+          Padding="2"
+          SnapsToDevicePixels="true"
+          Background="Transparent">
+                                <GridViewRowPresenter
+            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="true" >
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter TargetName="Border" Property="Background" Value="#FF1F72AC" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter TargetName="Border" Property="Background" Value="#FFB3D2E8"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="ListView">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="#252525"/>
+                <Setter Property="BorderBrush" Value="#252525"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="TabControl">
+                <Setter Property="Background" Value="#252525"/>
+                <Setter Property="BorderBrush" Value="#252525"/>
+            </Style>
+
+            <!--<Style TargetType="ComboBoxItem">
+                <Setter Property="FontSize" Value="11"/>
+            </Style>-->
+
+            <!--<Style TargetType="DockPanel" >
+            <Setter Property="Background" Value="#252525"/>
+        </Style>
+
+        <Style TargetType="StackPanel">
+            <Setter Property="Background" Value="#252525"/>
+        </Style>-->
+
+            <Style TargetType="TabItem">
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="BorderBrush" Value="#252525"/>
+                <Setter Property="Margin" Value="3 3 0 0"/>
+                <Setter Property="Height" Value="35"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TabItem">
+                            <Grid Name="Panel">
+                                <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="5,4"
+                                        TextBlock.FontFamily="Sans Unicode, Verdana"
+                                        TextBlock.FontWeight="Bold"
+                                        TextBlock.FontSize="12"
+                                        TextBlock.Foreground="White"
+                                                  />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="Panel" Property="Background" >
+                                        <Setter.Value>
+                                            <SolidColorBrush Color="#0767B3"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="False">
+                                    <Setter TargetName="Panel" Property="Background" >
+                                        <Setter.Value>
+                                            <SolidColorBrush Color="#454545"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
-    
 </Application>
