@@ -21,6 +21,36 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_54A796FAE9C83800AF8F0697925C1662"
+        "OwnerKey" = "8:_CA130C4B926C4AB49B363439A9678492"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_54A796FAE9C83800AF8F0697925C1662"
+        "OwnerKey" = "8:_D25A7B07976D033CCDC9AFB7F18F5029"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_55CB1BE9A943057ECC26E722166CDE6C"
+        "OwnerKey" = "8:_54A796FAE9C83800AF8F0697925C1662"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_55CB1BE9A943057ECC26E722166CDE6C"
+        "OwnerKey" = "8:_CA130C4B926C4AB49B363439A9678492"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_55CB1BE9A943057ECC26E722166CDE6C"
+        "OwnerKey" = "8:_D25A7B07976D033CCDC9AFB7F18F5029"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_627D378AE2527E08D7F22E8EC6737998"
         "OwnerKey" = "8:_CA130C4B926C4AB49B363439A9678492"
         "MsmSig" = "8:_UNDEFINED"
@@ -45,6 +75,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_D25A7B07976D033CCDC9AFB7F18F5029"
+        "OwnerKey" = "8:_CA130C4B926C4AB49B363439A9678492"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_DD6AE006CAFCC51D1A0D131B98F0D210"
         "OwnerKey" = "8:_CA130C4B926C4AB49B363439A9678492"
         "MsmSig" = "8:_UNDEFINED"
@@ -58,6 +94,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_D25A7B07976D033CCDC9AFB7F18F5029"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_DD6AE006CAFCC51D1A0D131B98F0D210"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -65,6 +107,18 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_627D378AE2527E08D7F22E8EC6737998"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_54A796FAE9C83800AF8F0697925C1662"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_55CB1BE9A943057ECC26E722166CDE6C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -188,6 +242,68 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_54A796FAE9C83800AF8F0697925C1662"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_54A796FAE9C83800AF8F0697925C1662"
+                    {
+                    "Name" = "8:ControlzEx.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:ControlzEx.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_55C9DC8769324F74823B5102696C204E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_55CB1BE9A943057ECC26E722166CDE6C"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_55CB1BE9A943057ECC26E722166CDE6C"
+                    {
+                    "Name" = "8:Microsoft.Xaml.Behaviors.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.Xaml.Behaviors.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_55C9DC8769324F74823B5102696C204E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_627D378AE2527E08D7F22E8EC6737998"
             {
             "AssemblyRegister" = "3:1"
@@ -233,6 +349,37 @@
                     }
                 }
             "SourcePath" = "8:System.Net.Http.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_55C9DC8769324F74823B5102696C204E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D25A7B07976D033CCDC9AFB7F18F5029"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_D25A7B07976D033CCDC9AFB7F18F5029"
+                    {
+                    "Name" = "8:MahApps.Metro.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:MahApps.Metro.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_55C9DC8769324F74823B5102696C204E"
@@ -338,7 +485,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:PassDash"
         "ProductCode" = "8:{C9800FA2-5535-4AFB-95A4-0132D3AF857A}"
-        "PackageCode" = "8:{F0DAC69B-FF6E-46B6-80E3-041FB84FC3F0}"
+        "PackageCode" = "8:{B4B03541-9320-4E2D-B220-6CF71059771C}"
         "UpgradeCode" = "8:{08BCA3AC-17D0-4C8E-A88A-9203D64BA143}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -346,16 +493,16 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:RM"
+        "Manufacturer" = "8:r-meijerink"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:PassDash "
         "Subject" = "8:"
-        "ARPCONTACT" = "8:RM"
+        "ARPCONTACT" = "8:r-meijerink"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:"
+        "ARPPRODUCTICON" = "8:_3FFB09F0978C4B35BD185B2447907D32"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -929,7 +1076,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_CA130C4B926C4AB49B363439A9678492"
             {
-            "SourcePath" = "8:..\\PassDash\\obj\\Release\\PassDash.exe"
+            "SourcePath" = "8:..\\PassDash\\obj\\Debug\\PassDash.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_55C9DC8769324F74823B5102696C204E"
