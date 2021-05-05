@@ -22,4 +22,3 @@ Features:
 
 -Unlimited number of passwords per password file.
 
-![Screenshot](PassDash/Images/ScreenShot1.jpg)
