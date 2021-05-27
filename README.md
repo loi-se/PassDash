@@ -1,4 +1,4 @@
-<img src="/PassDash/Images/logo.png" width="200" height="200">
+<img src="/PassDash/Images/icon.png" width="200" height="200">
 
 PassDash is an offline windows desktop program to store all your passwords in a secure and simple way. PassDash offers a clear 
 overview over all your password data through a clear dashboard screen.
